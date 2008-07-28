@@ -40,7 +40,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             # we have a translatable field in the form
             # save a hash for old value
             accessor = field.getAccessor(self)
-            oldValues[field.getName()] = md5(accessor()).hexdigest()
+            oldValues[field.getName()] = md5(str(accessor())).hexdigest()
             
     # START LinguaPlone.I18NBaseObject.processForm method
     is_new_object = self.checkCreationFlag()
@@ -78,7 +78,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
 
     changedFields = []
     for fName, md5Hex in oldValues.items():
-        if md5Hex != md5(schema.getField(fName).getAccessor(self)()).hexdigest():
+        if md5Hex != md5(str(schema.getField(fName).getAccessor(self)())).hexdigest():
             # translatable field changed
             changedFields.append(fName)
 
