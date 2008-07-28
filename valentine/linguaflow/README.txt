@@ -48,8 +48,16 @@ Now if we edit the canonical we should have some invalidation on the translation
   >>> hist[1]['review_state']
   'invalid'
 
+  >>> hist[1]['comments']
+  'Fields changed: text'
+
   >>> doc1_sv.processForm(values={'text':'Translation updated'})
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
   >>> hist[2]['review_state']
   'valid'
 
+  >>> hist[2]['comments']
+  'Fields changed: text'
+
+
+  
