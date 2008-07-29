@@ -14,7 +14,8 @@ def setupVarious(context):
     portal = context.getSite()
     wf = getToolByName(portal, 'portal_workflow')
     default_chain = list(wf._default_chain)
-    default_chain.append('linguaflow')
+    if 'linguaflow' not in default_chain:
+        default_chain.append('linguaflow')
     wf.setDefaultChain(' '.join(default_chain))
 
     
