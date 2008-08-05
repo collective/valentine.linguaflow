@@ -86,11 +86,6 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         if self.isCanonical() and changedFields:
             self.invalidateTranslations(changedFields)
 
-            
-    if not self.isCanonical() and outdated:
-        tUpdate = TranslationObjectUpdate(self.getCanonical(), self, 'validate', changedFields=changedFields)
-        notify(tUpdate)
-
 
 def invalidateTranslations(self, changedFields=[]):
     """Marks the translation as outdated."""

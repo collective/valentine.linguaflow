@@ -53,11 +53,18 @@ Now if we edit the canonical we should have some invalidation on the translation
 
   >>> doc1_sv.processForm(values={'text':'Translation updated'})
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
+  >>> hist[1]['review_state']
+  'invalid'
+
+The translation is still invalid even if we have edited and that is because a
+validation has to be manually invoked when editing is done through plone since
+we don't know if our changes are small corrections or retranslation of changes
+in canonical.
+
+  >>> wf.doActionFor(doc1_sv, 'validate')
+  >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
   >>> hist[2]['review_state']
   'valid'
-
-  >>> hist[2]['comments']
-  'Fields changed: text'
 
 
   
