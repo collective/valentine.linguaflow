@@ -1,10 +1,17 @@
 import transaction
 from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.Extensions.utils import install_subskin
+from valentine.linguaflow import GLOBALS
+from StringIO import StringIO
+
 PRODUCT_DEPENDENCIES = ('PloneLanguageTool','LinguaPlone', )
 EXTENSION_PROFILES = ('valentine.linguaflow:default', )
 
 def install(self, reinstall=False):
-
+    out = StringIO()
+    
+    install_subskin(self, out, GLOBALS)
+    
     qi = getToolByName(self, 'portal_quickinstaller')
     portal_setup = getToolByName(self, 'portal_setup')
     for product in PRODUCT_DEPENDENCIES:
