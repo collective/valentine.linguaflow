@@ -9,10 +9,7 @@ from valentine.linguaflow.events import TranslationObjectUpdate
 linguaPatcher = Patcher('LinguaPlone')
 
 #LinguaPlone patches
-from Products.LinguaPlone.I18NBaseObject import I18NBaseObject
-from Products.LinguaPlone import config
-from Products.Archetypes.public import BaseObject
-from Products.Archetypes.utils import shasattr
+from Products.LinguaPlone.I18NBaseObject import *
 
 def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     """ Find out what language dependent fields have changed. """
@@ -85,6 +82,11 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     if config.AUTO_NOTIFY_CANONICAL_UPDATE:
         if self.isCanonical() and changedFields:
             self.invalidateTranslations(changedFields)
+            # mark canonical with the changes but no state change
+            comment = 'Fields changed: %s' % ','.join(changedFields)
+            cUpdate = TranslationObjectUpdate(self, self,'nochange',
+                                              comment=comment)
+            notify(cUpdate)
 
 
 def invalidateTranslations(self, changedFields=[]):
@@ -94,8 +96,9 @@ def invalidateTranslations(self, changedFields=[]):
         translation = translations[lang][0]
         translation.notifyCanonicalUpdate()
         if changedFields:
+            comment = 'Fields changed: %s' % ','.join(changedFields)
             cUpdate = TranslationObjectUpdate(self, translation,'invalidate',
-                                              changedFields=changedFields)
+                                              comment=comment)
             notify(cUpdate)
     self.invalidateTranslationCache()
 

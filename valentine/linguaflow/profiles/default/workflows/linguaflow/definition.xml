@@ -5,24 +5,46 @@
  <state state_id="invalid" title="invalid">
   <exit-transition transition_id="invalidate"/>
   <exit-transition transition_id="validate"/>
+  <exit-transition transition_id="nochange"/>
  </state>
  <state state_id="valid" title="valid">
   <exit-transition transition_id="invalidate"/>
+  <exit-transition transition_id="invalidateall"/>
+  <exit-transition transition_id="nochange"/>
  </state>
- <transition transition_id="invalidate" title="invalidate"
+ <transition transition_id="invalidateall" title="Invalidate all translations"
              new_state="invalid" trigger="USER"
              before_script="" after_script="">
-  <action url="" category="workflow">invalidate</action>
+  <action url="@@lingaflow_invalidateall" category="workflow">Invalidate all translations</action>
   <guard>
-   <guard-role>Owner</guard-role>
+   <guard-permission>Modify portal content</guard-permission>
+   <guard-expression>here/isCanonical</guard-expression>
   </guard>
  </transition>
- <transition transition_id="validate" title="validate"
+ <transition transition_id="invalidate" title="Invalidate translation"
+             new_state="invalid" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Invalidate translation</action>
+  <guard>
+   <guard-permission>Modify portal content</guard-permission>
+   <guard-expression>not:here/isCanonical</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="validate" title="Validate translation"
              new_state="valid" trigger="USER"
              before_script="" after_script="">
-  <action url="" category="workflow">validate</action>
+  <action url="" category="workflow">Validate translation</action>
   <guard>
-   <guard-role>Owner</guard-role>
+   <guard-permission>Modify portal content</guard-permission>
+   <guard-expression>not:here/isCanonical</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="nochange" title="No change"
+             new_state="" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">No change</action>
+  <guard>
+   <guard-permission>Modify portal content</guard-permission>
   </guard>
  </transition>
  <variable variable_id="action" for_catalog="False"

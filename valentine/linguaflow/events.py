@@ -10,6 +10,7 @@ class ITranslationObjectUpdate(IObjectEvent):
     object = Attribute("The canonical object.")
     translation = Attribute("The translation target object.")
     action = Attribute("The workflow action to perform.")
+    comment = Attribute("The workflow comment, should contain which fields have changed.")
 
 class TranslationObjectUpdate(object):
     """Sent after an canonical or translation object has been edited.
@@ -18,15 +19,14 @@ class TranslationObjectUpdate(object):
        are performed on the translation."""
     implements(ITranslationObjectUpdate)
 
-    def __init__(self, context, translation, action, changedFields=[]):
+    def __init__(self, context, translation, action, comment):
         self.object = context
         self.translation = translation
         self.action = action
-        self.changedFields = changedFields
+        self.comment = comment
     
 def notifyCanonicalUpdate(obj, event):
     # catch all ITranslatable modified
-    wt = getToolByName(obj, 'portal_workflow')
-    if event.changedFields:
-        comment = 'Fields changed: %s' % ','.join(event.changedFields)
-        wt.doActionFor(event.translation, event.action, comment=comment )
+    if event.comment:
+        wt = getToolByName(obj, 'portal_workflow')
+        wt.doActionFor(event.translation, event.action, comment=event.comment )
