@@ -6,12 +6,23 @@
   <exit-transition transition_id="invalidate"/>
   <exit-transition transition_id="validate"/>
   <exit-transition transition_id="nochange"/>
+  <exit-transition transition_id="validateall"/>
  </state>
  <state state_id="valid" title="valid">
   <exit-transition transition_id="invalidate"/>
   <exit-transition transition_id="invalidateall"/>
   <exit-transition transition_id="nochange"/>
  </state>
+ <transition transition_id="validateall" title="Validate all translations"
+             new_state="valid" trigger="USER"
+             before_script="" after_script="">
+  <action url="@@lingaflow_validateall" category="workflow">Validate all translations</action>
+  <guard>
+   <guard-role>Manager</guard-role>
+   <guard-permission>Modify portal content</guard-permission>
+   <guard-expression>here/isCanonical</guard-expression>
+  </guard>
+ </transition>
  <transition transition_id="invalidateall" title="Invalidate all translations"
              new_state="invalid" trigger="USER"
              before_script="" after_script="">
@@ -36,13 +47,11 @@
   <action url="" category="workflow">Validate translation</action>
   <guard>
    <guard-permission>Modify portal content</guard-permission>
-   <guard-expression>not:here/isCanonical</guard-expression>
   </guard>
  </transition>
  <transition transition_id="nochange" title="No change"
              new_state="" trigger="USER"
              before_script="" after_script="">
-  <action url="" category="workflow">No change</action>
   <guard>
    <guard-permission>Modify portal content</guard-permission>
   </guard>
