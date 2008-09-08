@@ -16,6 +16,12 @@ def setupVarious(context):
     default_chain = list(wf._default_chain)
     if 'linguaflow' not in default_chain:
         default_chain.append('linguaflow')
-    wf.setDefaultChain(' '.join(default_chain))
+        wf.setDefaultChain(' '.join(default_chain))
 
+    # Add linguaflow for folder workflow too if it doesn't use the default
+    folder_chain = list(wf.getChainForPortalType('Folder'))
+    if 'linguaflow' not in folder_chain:
+        folder_chain.append('linguaflow')
+        wf.setChainForPortalTypes(('Folder',), folder_chain)
+        
     

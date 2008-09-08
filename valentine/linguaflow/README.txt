@@ -41,9 +41,10 @@ Let check status on our fresh content.
   >>> hist[0]['review_state']
   'valid'
 
-Now if we edit the canonical we should have some invalidation on the translations.
+Now if we edit the canonical we can invalidate all translations.
 
   >>> doc1.processForm(values={'text':'Changed text of doc one'})
+  >>> wf.doActionFor(doc1_sv, 'invalidate', comment='Fields changed: text')
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
   >>> hist[1]['review_state']
   'invalid'
@@ -66,5 +67,7 @@ in canonical.
   >>> hist[2]['review_state']
   'valid'
 
+  >>> wf.getInfoFor(doc1_sv, 'review_state', None, linguaflow.getId())
+  'valid'
 
   
