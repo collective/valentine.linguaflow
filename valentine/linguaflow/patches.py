@@ -80,23 +80,22 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             changedFields.append(fName)
 
     if config.AUTO_NOTIFY_CANONICAL_UPDATE:
+        comment = 'Fields changed: %s' % ','.join(changedFields)
         if self.isCanonical() and changedFields:
-            self.invalidateTranslations(changedFields)
+            self.invalidateTranslations(comment)
             # mark canonical with the changes but no state change
-            comment = 'Fields changed: %s' % ','.join(changedFields)
             cUpdate = TranslationObjectUpdate(self, self,'nochange',
                                               comment=comment)
             notify(cUpdate)
 
 
-def invalidateTranslations(self, changedFields=[]):
+def invalidateTranslations(self, comment=''):
     """Marks the translation as outdated."""
     translations = self.getNonCanonicalTranslations()
     for lang in translations.keys():
         translation = translations[lang][0]
         translation.notifyCanonicalUpdate()
-        if changedFields:
-            comment = 'Fields changed: %s' % ','.join(changedFields)
+        if comment:
             cUpdate = TranslationObjectUpdate(self, translation,'invalidate',
                                               comment=comment)
             notify(cUpdate)

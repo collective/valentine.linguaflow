@@ -14,5 +14,7 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+   <include package=".browser" />
    <include file="plone25.zcml" />
+
 </configure>
