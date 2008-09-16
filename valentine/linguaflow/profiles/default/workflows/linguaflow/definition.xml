@@ -16,7 +16,7 @@
  <transition transition_id="validateall" title="Validate all translations"
              new_state="valid" trigger="USER"
              before_script="" after_script="">
-  <action url="@@lingaflow_validateall" category="workflow">Validate all translations</action>
+  <action url="@@linguaflow_validateall" category="workflow">Validate all translations</action>
   <guard>
    <guard-role>Manager</guard-role>
    <guard-permission>Modify portal content</guard-permission>
@@ -26,7 +26,7 @@
  <transition transition_id="invalidateall" title="Invalidate all translations"
              new_state="invalid" trigger="USER"
              before_script="" after_script="">
-  <action url="@@lingaflow_invalidateall" category="workflow">Invalidate all translations</action>
+  <action url="@@linguaflow_invalidateall" category="workflow">Invalidate all translations</action>
   <guard>
    <guard-permission>Modify portal content</guard-permission>
    <guard-expression>here/isCanonical</guard-expression>
