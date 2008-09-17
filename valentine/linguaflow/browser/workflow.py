@@ -18,7 +18,7 @@ class WorkflowHistory(object):
         Taken from plone_scripts/getWorkflowHistory.py
         """
         context = self.context
-        
+
         workflow = getToolByName(context, 'portal_workflow')
         membership = getToolByName(context, 'portal_membership')
         
@@ -26,7 +26,8 @@ class WorkflowHistory(object):
 
         # check if the current user has the proper permissions
         if (membership.checkPermission('Request review', self.context) or
-            membership.checkPermission('Review portal content', self.context)):
+            membership.checkPermission('Review portal content', self.context) and
+            getToolByName(context, 'portal_url').getPortalObject() != context):
             try:
                 # get total history with old unused workflows too
                 allWorkflows = getattr(context, 'workflow_history',{}).keys()

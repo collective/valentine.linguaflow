@@ -13,7 +13,7 @@
     <browser:page
         name="workflowHistory" 
 	class=".workflow.WorkflowHistory"
-	permission="cmf.ModifyPortalContent"
+	permission="zope.Public"
 	for="*"
 	allowed_attributes="histories"
 	 />
