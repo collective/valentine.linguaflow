@@ -8,8 +8,7 @@
 <ul tal:define="manage_portal python:checkPermission('Manage portal', here);
                 parent_folder plone_view/getCurrentFolder;
                 disableMenu python:here.portal_factory.isTemporary(here);
-                useSelf python:isStructuralFolder and not isContextDefaultPage;
-                test nocall:context/@@test"
+                useSelf python:isStructuralFolder and not isContextDefaultPage;"
     tal:condition="not:disableMenu">
 
     <tal:states define="review_state wf_state;
@@ -52,10 +51,9 @@
                     <a href="#"
                        i18n:translate=""
                        tal:content="transition/title"
-		       tal:define="url string:$here_url/content_status_modify?workflow_action=${transition/id};
- 		                   url python:test(transition.get('url', None), here_url + '/' + transition['url'], url)"
                        i18n:attributes="title"
-                       tal:attributes="href url;
+		       tal:define="url string:$here_url/content_status_modify?workflow_action=${transition/id};
+                                   url python:test(transition.get('url', None), here_url + '/' + transition['url'], url)"                                                                                                       tal:attributes="href url;
                                        title transition/title">File Menu Item 1</a>
                 </li>
                 </tal:block>
@@ -459,32 +457,6 @@
             </li>
         </tal:batchAction>
     </tal:batch>
-
-  <li tal:repeat="submenu context/@@view_get_menu/contentmenu_extra">
-    <dl class="actionMenu">
-      <dt class="actionMenuHeader">
-        <a href="#" 
-           tal:content="submenu/title"
-           tal:attributes="href python:submenu['action'] or '#';
-                           title submenu/description"></a>
-      </dt>
-      <dd class="actionMenuContent">
-        <ul>
-          <li tal:repeat="item submenu/submenu">
-            <a href="#" 
-               tal:condition="not:item/selected"
-               tal:content="item/title"
-               tal:attributes="href item/action;
-                               title item/description"></a>
-            <span class="actionMenuSelected"
-                  tal:condition="item/selected"
-                  tal:content="item/title">
-            </span>
-          </li>
-        </ul>
-      </dd>
-    </dl>
-  </li>
 
 </ul>
 
