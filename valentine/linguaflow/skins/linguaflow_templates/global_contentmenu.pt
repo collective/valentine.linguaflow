@@ -53,7 +53,7 @@
                        tal:content="transition/title"
                        i18n:attributes="title"
 		       tal:define="url string:$here_url/content_status_modify?workflow_action=${transition/id};
-                                   url python:test(transition.get('url', None), here_url + '/' + transition['url'], url)"                                                                                                       tal:attributes="href url;
+		                   url python:test(transition.get('url', None), transition['url'], url)"                                                                                                                       tal:attributes="href url;
                                        title transition/title">File Menu Item 1</a>
                 </li>
                 </tal:block>
