@@ -8,7 +8,8 @@
 <ul tal:define="manage_portal python:checkPermission('Manage portal', here);
                 parent_folder plone_view/getCurrentFolder;
                 disableMenu python:here.portal_factory.isTemporary(here);
-                useSelf python:isStructuralFolder and not isContextDefaultPage;"
+                useSelf python:isStructuralFolder and not isContextDefaultPage;
+                test nocall:context/@@test|python:test"
     tal:condition="not:disableMenu">
 
     <tal:states define="review_state wf_state;
