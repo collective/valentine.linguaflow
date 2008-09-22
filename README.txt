@@ -33,7 +33,7 @@ Credits
 -------
 
 Funding and deployment:
-  EEA_ - European Enviroment Agency (Antonio Demarinis)
+  EEA_ - European Enviroment Agency (Antonio De Marinis)
 
 
 Design and Development:
