@@ -54,19 +54,20 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
 
     if shasattr(self, '_lp_default_page'):
         delattr(self, '_lp_default_page')
-        language = self.getLanguage()
-        canonical = self.getCanonical()
-        canonical_parent = aq_parent(aq_inner(canonical))
-        parent = aq_parent(aq_inner(self))
-        if parent == canonical_parent:
-            parent.addTranslation(language)
-            translation_parent = parent.getTranslation(language)
-            values = {'title': self.Title()}
-            translation_parent.processForm(values=values)
-            translation_parent.setDescription(self.Description())
-            parent = translation_parent
-        if shasattr(parent, 'setDefaultPage'):
-            parent.setDefaultPage(new_id)
+        if not self.isCanonical():
+            language = self.getLanguage()
+            canonical = self.getCanonical()
+            canonical_parent = aq_parent(aq_inner(canonical))
+            parent = aq_parent(aq_inner(self))
+            if parent == canonical_parent and not parent.hasTranslation(language):
+                parent.addTranslation(language)
+                translation_parent = parent.getTranslation(language)
+                values = {'title': self.Title()}
+                translation_parent.processForm(values=values)
+                translation_parent.setDescription(self.Description())
+                parent = translation_parent
+            if shasattr(parent, 'setDefaultPage'):
+                parent.setDefaultPage(new_id)
 
             
     if shasattr(self, '_lp_outdated'):
