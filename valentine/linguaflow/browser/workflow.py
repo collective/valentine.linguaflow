@@ -32,7 +32,7 @@ class WorkflowHistory(object):
                 # get total history with old unused workflows too
                 allWorkflows = getattr(context, 'workflow_history',{}).keys()
                 for wfId in allWorkflows:
-                    review_history = workflow.getInfoFor(self.context, 'review_history', [], wfId)
+                    review_history = list(workflow.getInfoFor(self.context, 'review_history', [], wfId))
 
                     for r in review_history:
                         if r['action']:
