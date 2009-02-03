@@ -25,7 +25,7 @@ Now we create some content and translations.
   >>> doc1_sv.setTitle('Dok ett')
   >>> doc1_sv.setText('Lite dok ett text')
 
-valentine.linguaflow provides a new workflow which installs as a second default workflow so alla
+valentine.linguaflow provides a new workflow which installs as a second default workflow so all
 content types that use the default one will automaticall have it.
 
   >>> wf = getToolByName(portal, 'portal_workflow')
