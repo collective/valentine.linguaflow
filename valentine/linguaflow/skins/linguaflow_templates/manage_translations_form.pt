@@ -283,6 +283,14 @@
                         <label for="syncExpirationDate"
                               >Expiration date</label>
 
+                        <input type="checkbox"
+                               class="noborder"
+                               id="syncLocalRoles"
+                               name="syncLocalRoles"
+                               />
+                        <label for="syncLocalRoles"
+                              >Local roles</label>
+
                 </div>
 
 		

@@ -146,4 +146,27 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   'published'
   >>> wf.getInfoFor(doc1_pl, 'review_state')
   'published'
-  
+
+Sync local roles to translations
+
+  >>> doc1.get_local_roles()
+  (('test_user_1_', ('Owner',)),)  
+  >>> doc1.manage_setLocalRoles('tester', ('Manager',))
+  >>> doc1.get_local_roles()
+  (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
+  >>> doc1_sv.get_local_roles()
+  (('test_user_1_', ('Owner',)),)
+
+  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
+  >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
+  >>> browser.getControl(label).selected = True
+  >>> label = 'Polski (pl): %s' % doc1_pl.Title()
+  >>> browser.getControl(label).selected = True
+  >>> browser.getControl('Local roles').selected = True
+  >>> browser.getControl(name='linguaflow_syncworkflow:method').click()
+
+  >>> doc1_sv.get_local_roles()
+  (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
+  >>> doc1_pl.get_local_roles()
+  (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
+

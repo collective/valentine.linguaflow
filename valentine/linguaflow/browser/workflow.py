@@ -113,7 +113,7 @@ class SyncWorkflow(object):
     def __call__(self):
         context = self.context.getCanonical()
         wf = getToolByName(context, 'portal_workflow')
-        wf_id = wf.getDefaultChainFor(context)[0]
+        wf_id = wf.getChainFor(context)[0]
         canonical_state = wf.getInfoFor(context, 'review_state')
         last_transition = wf.getHistoryOf(wf_id, context)[-1]
         last_transition['comments'] = self.request.get('comment', 'Sync workflow state')
@@ -122,6 +122,8 @@ class SyncWorkflow(object):
         translations = context.getNonCanonicalTranslations()
         expirationDate = self.request.get('syncExpirationDate', None) and context.getExpirationDate()
         effectiveDate = self.request.get('syncEffectiveDate', None) and context.getEffectiveDate()
+        syncLocalRoles = self.request.get('syncLocalRoles', False)
+        local_roles = context.get_local_roles()
         for lang in self.languages:
             translation = translations[lang][0]
             translation_state = wf.getInfoFor(translation, 'review_state')
@@ -136,6 +138,10 @@ class SyncWorkflow(object):
                 if expirationDate is not None:
                     print expirationDate
                     translation.setExpirationDate(expirationDate)                    
-            
+
+            if syncLocalRoles:
+                for userid, roles in local_roles:
+                    translation.manage_setLocalRoles(userid, roles)
+                     
         self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
 
