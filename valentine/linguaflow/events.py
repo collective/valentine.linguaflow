@@ -46,11 +46,21 @@ class SyncWorkflowEvent(object):
 
     implements(ISyncWorkflowEvent)
 
-    def __init__(self, context, translation, comment):
+    def __init__(self, context, translation, transition):
         self.object = context
         self.translation = translation
-        self.comment = comment
+        self.transition = transition
 
-
-
+def syncronizeTranlationWorkflow(obj, event):
+    wf = getToolByName(obj, 'portal_workflow')
+    canonical_state = wf.getInfoFor(obj, 'review_state')
+    translation_state = wf.getInfoFor(event.translation, 'review_state')
+    if canonical_state != translation_state:
+        wf_id = wf.getDefaultChainFor(obj)[0]
+        last_transition = wf.getHistoryOf(wf_id, obj)[-1]
+        last_transition['comment'] = event.comment
+        translation_history = list(event.translation.workflow_history[wf_id])
+        translation_history.append(last_transition)
+        event.translation.workflow_history[wf_id] = tuple(translation_history)
+        
     

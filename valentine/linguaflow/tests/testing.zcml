@@ -4,22 +4,12 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="valentine.linguaflow">
 
-  <five:registerPackage package="." />
-
   <genericsetup:registerProfile
-      name="default"
-      title="Valentine Linguaflow"
-      directory="profiles/default"
+      name="testing"
+      title="Valentine Linguaflow testing"
+      directory="../profiles/testing"
       description="Extension profile for Valentine Linguaflow"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-
-   <include package=".browser" />
-   <include file="plone25.zcml" />
-
-    <subscriber
-         for="*
-              valentine.linguaflow.events.ISyncWorkflowEvent"
-         handler=".events.syncronizeTranlationWorkflow"   />
 
 </configure>

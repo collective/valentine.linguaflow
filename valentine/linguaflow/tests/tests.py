@@ -20,9 +20,8 @@ def setUp(root):
 def test_suite():
     from unittest import TestSuite
     suite = TestSuite()
-    from Testing.ZopeTestCase import FunctionalDocFileSuite
-    from Products.PloneTestCase.ptc import FunctionalTestCase    
-    suite.addTest(FunctionalDocFileSuite(
+    from Testing.ZopeTestCase import ZopeDocFileSuite
+    suite.addTest(ZopeDocFileSuite(
                 'README.txt',
                 setUp=setUp,
                 #tearDown=tearDown,

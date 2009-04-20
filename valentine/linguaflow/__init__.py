@@ -12,5 +12,3 @@ utils.ProductsPath.append(dirname(package_home(GLOBALS)))
 registerDirectory('skins', GLOBALS)
 utils.ProductsPath = ppath
 
-def initialize(context):
-    """Initializer called when used as a Zope 2 product."""

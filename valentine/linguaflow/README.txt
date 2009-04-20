@@ -1,5 +1,8 @@
-Demo
-----
+valentine.linguaflow
+====================
+
+Translation invalidation / validation
+------------------------------------
 
 We prepare languages, we will have english as default and swedish and
 polish as available languages for translation.
@@ -18,10 +21,10 @@ Now we create some content and translations.
   >>> doc2 = folder.doc2
   
   >>> doc1.addTranslation('sv')
-  >>> doc1.addTranslation('pl')
-
-  >>> doc2.addTranslation('sv')  
   >>> doc1_sv = doc1.getTranslation('sv')
+  >>> doc1.addTranslation('pl')
+  >>> doc1_pl = doc1.getTranslation('pl')
+
   >>> doc1_sv.setTitle('Dok ett')
   >>> doc1_sv.setText('Lite dok ett text')
 
@@ -41,6 +44,9 @@ Let check status on our fresh content.
   >>> hist[0]['review_state']
   'valid'
 
+Translation invalidation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 Now if we edit the canonical we can invalidate all translations.
 
   >>> doc1.processForm(values={'text':'Changed text of doc one'})
@@ -51,6 +57,9 @@ Now if we edit the canonical we can invalidate all translations.
 
   >>> hist[1]['comments']
   'Fields changed: text'
+
+Translation validation
+~~~~~~~~~~~~~~~~~~~~~~
 
   >>> doc1_sv.processForm(values={'text':'Translation updated'})
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
@@ -70,4 +79,71 @@ in canonical.
   >>> wf.getInfoFor(doc1_sv, 'review_state', None, linguaflow.getId())
   'valid'
 
+  
+Synchronization
+---------------
+
+With LinguaPlone translations are independent objects and language independent 
+fields are maintained by LinguaPlone but if you want to synchronize other 
+properties like workflow_state, criteria in a SmartFolder/Topic/Collection (all
+those names for same thing), zmi properites, default page or layout then 
+the synchronization in valentine.linguaflow will help you.
+
+Workflow synchronization
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If we return to our documents created above we can se that they have default 
+state in their default workflow.
+
+  >>> wf.getInfoFor(doc1, 'review_state')
+  'visible'
+  >>> wf.getInfoFor(doc1_sv, 'review_state')
+  'visible'
+  >>> wf.getInfoFor(doc1_pl, 'review_state')
+  'visible'
+
+Now we change the state of the canonical and we'll see that the translations didn't follow:
+
+  >>> wf.doActionFor(doc1, 'publish', comment='Original text published')
+  >>> wf.getInfoFor(doc1, 'review_state')
+  'published'
+  >>> wf.getInfoFor(doc1_sv, 'review_state')
+  'visible'
+  >>> wf.getInfoFor(doc1_pl, 'review_state')
+  'visible'
+
+  >>> doc1.reindexObject()
+  >>> doc1_sv.reindexObject()
+  >>> doc1_pl.reindexObject()
+
+But now a manager can go to manage_translation_form and synchronize the workflow state.
+
+  >>> from Products.PloneTestCase.setup import portal_owner, default_password
+  >>> from Products.Five.testbrowser import Browser
+  >>> browser = Browser()
+  >>> browser.handleErrors = False
+  >>> self.portal.error_log._ignored_exceptions = ()
+  >>> browser.open(self.portal.absolute_url())
+  >>> browser.getControl(name='__ac_name').value = portal_owner
+  >>> browser.getControl(name='__ac_password').value = default_password
+  >>> browser.getControl(name='submit').click()
+  >>> browser.open(doc1_sv.absolute_url() + '/edit') 
+  >>> browser.contents
+  '...">Public Draft</span>...'
+
+  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
+  >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
+  >>> browser.getControl(label).selected = True
+  >>> label = 'Polski (pl): %s' % doc1_pl.Title()
+  >>> browser.getControl(label).selected = True
+  >>> browser.getControl('Expiration date').selected = True
+  >>> browser.getControl('Effective date').selected = True
+  >>> browser.getControl(name='linguaflow_syncworkflow:method').click()
+
+  >>> wf.getInfoFor(doc1, 'review_state')
+  'published'
+  >>> wf.getInfoFor(doc1_sv, 'review_state')
+  'published'
+  >>> wf.getInfoFor(doc1_pl, 'review_state')
+  'published'
   

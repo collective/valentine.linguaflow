@@ -12,6 +12,7 @@ def setup_valentine_linguaflow():
     import valentine.linguaflow
     zcml.load_config('meta.zcml', Products.Five)
     zcml.load_config('configure.zcml', valentine.linguaflow)
+    zcml.load_config('testing.zcml', valentine.linguaflow.tests)
     fiveconfigure.debug_mode = False
 
     ptc.installProduct('PloneLanguageTool')
@@ -20,7 +21,7 @@ def setup_valentine_linguaflow():
 
 setup_valentine_linguaflow()
 
-ptc.setupPloneSite(products=['PloneLanguageTool', 'LinguaPlone'], extension_profiles=('valentine.linguaflow:default',))
+ptc.setupPloneSite(products=['PloneLanguageTool','LinguaPlone', 'valentine.linguaflow'], extension_profiles=('valentine.linguaflow:default','valentine.linguaflow.tests:testing'))
 
 class ValentineLinguaflowTestCase(ptc.PloneTestCase):
     """ """

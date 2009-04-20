@@ -32,6 +32,13 @@
 	for="*"
 	 />
 
+    <browser:page
+        name="linguaflow_syncworkflow" 
+	class=".workflow.SyncWorkflow"
+	permission="cmf.ModifyPortalContent"
+	for="*"
+	 />
+
 
 </configure>
 

@@ -5,6 +5,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone import PloneMessageFactory as _
 
 from valentine.linguaflow.events import TranslationObjectUpdate
+from DateTime import DateTime
 
 class WorkflowHistory(object):
 
@@ -87,7 +88,7 @@ class LinguaflowValidateAll(object):
         validate translation to each translation. """
     
     def __init__(self, context, request):
-        self.context = context
+        self.context = context.getCanonical()
         self.request = request
 
     def __call__(self):
@@ -99,4 +100,42 @@ class LinguaflowValidateAll(object):
             cUpdate = TranslationObjectUpdate(context, translation,'validate',comment=comment)
             notify(cUpdate)                       
         self.request.RESPONSE.redirect(context.absolute_url())
+
+
+class SyncWorkflow(object):
+    """ """
+    
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.languages = request.get('languages')        
+        
+    def __call__(self):
+        context = self.context.getCanonical()
+        wf = getToolByName(context, 'portal_workflow')
+        wf_id = wf.getDefaultChainFor(context)[0]
+        canonical_state = wf.getInfoFor(context, 'review_state')
+        last_transition = wf.getHistoryOf(wf_id, context)[-1]
+        last_transition['comments'] = self.request.get('comment', 'Sync workflow state')
+        last_transition['actor'] = getToolByName(context, 'portal_membership').getAuthenticatedMember()
+        last_transition['time'] = DateTime()
+        translations = context.getNonCanonicalTranslations()
+        expirationDate = self.request.get('syncExpirationDate', None) and context.getExpirationDate()
+        effectiveDate = self.request.get('syncEffectiveDate', None) and context.getEffectiveDate()
+        for lang in self.languages:
+            translation = translations[lang][0]
+            translation_state = wf.getInfoFor(translation, 'review_state')
+            if canonical_state != translation_state:
+                translation_history = list(translation.workflow_history[wf_id])
+                translation_history.append(last_transition)
+                translation.workflow_history[wf_id] = tuple(translation_history)
+                if effectiveDate is not None:
+                    print effectiveDate
+                    translation.setEffectiveDate(effectiveDate)
+                    
+                if expirationDate is not None:
+                    print expirationDate
+                    translation.setExpirationDate(expirationDate)                    
+            
+        self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
 
