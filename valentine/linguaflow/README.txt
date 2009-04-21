@@ -63,7 +63,7 @@ Translation validation
 
   >>> doc1_sv.processForm(values={'text':'Translation updated'})
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
-  >>> hist[1]['review_state']
+  >>> hist[-1]['review_state']
   'invalid'
 
 The translation is still invalid even if we have edited and that is because a
@@ -73,7 +73,7 @@ in canonical.
 
   >>> wf.doActionFor(doc1_sv, 'validate')
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
-  >>> hist[2]['review_state']
+  >>> hist[-1]['review_state']
   'valid'
 
   >>> wf.getInfoFor(doc1_sv, 'review_state', None, linguaflow.getId())
