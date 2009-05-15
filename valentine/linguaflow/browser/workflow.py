@@ -130,24 +130,25 @@ class SyncWorkflow(object):
         syncLocalRoles = self.request.get('syncLocalRoles', False)
         local_roles = context.get_local_roles()
         for lang in self.languages:
-            translation = translations[lang][0]
-            translation_state = wf.getInfoFor(translation, 'review_state')
-            if canonical_state != translation_state:
-                translation_history = list(translation.workflow_history[wf_id])
-                translation_history.append(last_transition)
-                translation.workflow_history[wf_id] = tuple(translation_history)
+            if lang in translations.keys():
+                translation = translations[lang][0]
+                translation_state = wf.getInfoFor(translation, 'review_state')
+                if canonical_state != translation_state:
+                    translation_history = list(translation.workflow_history[wf_id])
+                    translation_history.append(last_transition)
+                    translation.workflow_history[wf_id] = tuple(translation_history)
 
-                if effectiveDate is not None:
-                    print effectiveDate
-                    translation.setEffectiveDate(effectiveDate)
-                    
-                if expirationDate is not None:
-                    print expirationDate
-                    translation.setExpirationDate(expirationDate)                    
+                    if effectiveDate is not None:
+                        print effectiveDate
+                        translation.setEffectiveDate(effectiveDate)
 
-            if syncLocalRoles:
-                for userid, roles in local_roles:
-                    translation.manage_setLocalRoles(userid, roles)
+                    if expirationDate is not None:
+                        print expirationDate
+                        translation.setExpirationDate(expirationDate)                    
+
+                if syncLocalRoles:
+                    for userid, roles in local_roles:
+                        translation.manage_setLocalRoles(userid, roles)
 
 
 
