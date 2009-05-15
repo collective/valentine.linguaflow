@@ -104,20 +104,25 @@ class LinguaflowValidateAll(object):
 
 class SyncWorkflow(object):
     """ """
-    
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.languages = request.get('languages')        
+        self.languages = request.get('languages',[])        
         
     def __call__(self):
+        comment = self.request.get('comment', 'Sync workflow state')
+        self.syncWorkflow(comment)
+        self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
+                
+    def syncWorkflow(self, comment):
         context = self.context.getCanonical()
         wf = getToolByName(context, 'portal_workflow')
         wf_id = wf.getChainFor(context)[0]
         canonical_state = wf.getInfoFor(context, 'review_state')
         last_transition = wf.getHistoryOf(wf_id, context)[-1]
-        last_transition['comments'] = self.request.get('comment', 'Sync workflow state')
-        last_transition['actor'] = getToolByName(context, 'portal_membership').getAuthenticatedMember()
+        last_transition['comments'] = comment
+        last_transition['actor'] = getToolByName(context, 'portal_membership').getAuthenticatedMember().getId()
         last_transition['time'] = DateTime()
         translations = context.getNonCanonicalTranslations()
         expirationDate = self.request.get('syncExpirationDate', None) and context.getExpirationDate()
@@ -131,6 +136,7 @@ class SyncWorkflow(object):
                 translation_history = list(translation.workflow_history[wf_id])
                 translation_history.append(last_transition)
                 translation.workflow_history[wf_id] = tuple(translation_history)
+
                 if effectiveDate is not None:
                     print effectiveDate
                     translation.setEffectiveDate(effectiveDate)
@@ -142,6 +148,8 @@ class SyncWorkflow(object):
             if syncLocalRoles:
                 for userid, roles in local_roles:
                     translation.manage_setLocalRoles(userid, roles)
-                     
-        self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
+
+
+
+
 
