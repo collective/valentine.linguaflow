@@ -134,8 +134,6 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
   >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
   >>> browser.getControl(label).selected = True
-  >>> label = 'Polski (pl): %s' % doc1_pl.Title()
-  >>> browser.getControl(label).selected = True
   >>> browser.getControl('Expiration date').selected = True
   >>> browser.getControl('Effective date').selected = True
   >>> browser.getControl(name='linguaflow_syncworkflow:method').click()
@@ -145,7 +143,16 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> wf.getInfoFor(doc1_sv, 'review_state')
   'published'
   >>> wf.getInfoFor(doc1_pl, 'review_state')
+  'visible'
+
+In your code you can sync with event
+
+  >>> from valentine.linguaflow.events import SyncWorkflowEvent
+  >>> from zope.event import notify
+  >>> notify(SyncWorkflowEvent(doc1, doc1_pl, comment='event sync'))
+  >>> wf.getInfoFor(doc1_pl, 'review_state')
   'published'
+
 
 Sync local roles to translations
 

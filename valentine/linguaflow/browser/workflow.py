@@ -112,10 +112,14 @@ class SyncWorkflow(object):
         
     def __call__(self):
         comment = self.request.get('comment', 'Sync workflow state')
-        self.syncWorkflow(comment)
+        expirationDate = self.request.get('syncExpirationDate', None) 
+        effectiveDate = self.request.get('syncEffectiveDate', None)
+        syncLocalRoles = self.request.get('syncLocalRoles', False)
+        syncWorkflowState = self.request.get('syncWorkflowState', False)
+        self.sync(syncWorkflowState, effectiveDate, expirationDate, syncLocalRoles, comment=comment)
         self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
                 
-    def syncWorkflow(self, comment):
+    def sync(self, syncWorkflowState=False, syncEffectiveDate=None, syncExpirationDate=None, syncLocalRoles=False, comment=''):
         context = self.context.getCanonical()
         wf = getToolByName(context, 'portal_workflow')
         wf_id = wf.getChainFor(context)[0]
@@ -125,10 +129,8 @@ class SyncWorkflow(object):
         last_transition['actor'] = getToolByName(context, 'portal_membership').getAuthenticatedMember().getId()
         last_transition['time'] = DateTime()
         translations = context.getNonCanonicalTranslations()
-        expirationDate = self.request.get('syncExpirationDate', None) and context.getExpirationDate()
-        effectiveDate = self.request.get('syncEffectiveDate', None) and context.getEffectiveDate()
-        syncLocalRoles = self.request.get('syncLocalRoles', False)
-        syncWorkflowState = self.request.get('syncWorkflowState', False)
+        expirationDate = syncExpirationDate and context.getExpirationDate()
+        effectiveDate = syncEffectiveDate and context.getEffectiveDate()
         local_roles = context.get_local_roles()
         for lang in self.languages:
             if lang in translations.keys():
@@ -141,11 +143,9 @@ class SyncWorkflow(object):
                         translation.workflow_history[wf_id] = tuple(translation_history)
 
                     if effectiveDate is not None:
-                        print effectiveDate
                         translation.setEffectiveDate(effectiveDate)
 
                     if expirationDate is not None:
-                        print expirationDate
                         translation.setExpirationDate(expirationDate)                    
 
                 if syncLocalRoles:

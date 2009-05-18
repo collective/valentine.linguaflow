@@ -55,6 +55,6 @@ class SyncWorkflowEvent(object):
 def syncronizeTranlationWorkflow(obj, event):
     view = getMultiAdapter((obj, obj.REQUEST), name=u"linguaflow_syncworkflow")
     view.languages = [event.translation.Language()]
-    view.syncWorkflow(event.comment)
+    view.sync(syncWorkflowState=True, comment=event.comment)
         
     
