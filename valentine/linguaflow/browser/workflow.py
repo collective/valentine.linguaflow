@@ -128,15 +128,17 @@ class SyncWorkflow(object):
         expirationDate = self.request.get('syncExpirationDate', None) and context.getExpirationDate()
         effectiveDate = self.request.get('syncEffectiveDate', None) and context.getEffectiveDate()
         syncLocalRoles = self.request.get('syncLocalRoles', False)
+        syncWorkflowState = self.request.get('syncWorkflowState', False)
         local_roles = context.get_local_roles()
         for lang in self.languages:
             if lang in translations.keys():
                 translation = translations[lang][0]
-                translation_state = wf.getInfoFor(translation, 'review_state')
-                if canonical_state != translation_state:
-                    translation_history = list(translation.workflow_history[wf_id])
-                    translation_history.append(last_transition)
-                    translation.workflow_history[wf_id] = tuple(translation_history)
+                if syncWorkflowState:
+                    translation_state = wf.getInfoFor(translation, 'review_state')
+                    if canonical_state != translation_state:
+                        translation_history = list(translation.workflow_history[wf_id])
+                        translation_history.append(last_transition)
+                        translation.workflow_history[wf_id] = tuple(translation_history)
 
                     if effectiveDate is not None:
                         print effectiveDate
