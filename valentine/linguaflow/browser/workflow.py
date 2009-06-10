@@ -141,7 +141,8 @@ class SyncWorkflow(object):
                         translation_history = list(translation.workflow_history[wf_id])
                         translation_history.append(last_transition)
                         translation.workflow_history[wf_id] = tuple(translation_history)
-
+                        wf.getWorkflowById(wf_id).updateRoleMappingsFor(translation)
+                        
                     if effectiveDate is not None:
                         translation.setEffectiveDate(effectiveDate)
 

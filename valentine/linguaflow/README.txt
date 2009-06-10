@@ -140,8 +140,14 @@ But now a manager can go to manage_translation_form and synchronize the workflow
 
   >>> wf.getInfoFor(doc1, 'review_state')
   'published'
+  >>> [p['name'] for p in doc1.permissionsOfRole('Anonymous') 
+  ...    if p['selected'] ]
+  ['Access contents information', 'View']
   >>> wf.getInfoFor(doc1_sv, 'review_state')
   'published'
+  >>> [p['name'] for p in doc1_sv.permissionsOfRole('Anonymous') 
+  ...    if p['selected'] ]
+  ['Access contents information', 'View']
   >>> wf.getInfoFor(doc1_pl, 'review_state')
   'visible'
 
