@@ -6,7 +6,12 @@ from Products.CMFPlone import PloneMessageFactory as _
 
 from valentine.linguaflow.events import TranslationObjectUpdate
 from DateTime import DateTime
-
+import topic
+try:
+    from Products.NavigationManager import catalog as isempty
+except:
+    isempty = False
+    
 class WorkflowHistory(object):
 
     def __init__(self, context, request):
@@ -116,10 +121,16 @@ class SyncWorkflow(object):
         effectiveDate = self.request.get('syncEffectiveDate', None)
         syncLocalRoles = self.request.get('syncLocalRoles', False)
         syncWorkflowState = self.request.get('syncWorkflowState', False)
-        self.sync(syncWorkflowState, effectiveDate, expirationDate, syncLocalRoles, comment=comment)
+        syncTopicCriteria = self.request.get('syncTopicCriteria', False)
+        self.sync(syncWorkflowState, effectiveDate, expirationDate, syncLocalRoles, syncTopicCriteria,
+                  comment=comment)
         self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
                 
-    def sync(self, syncWorkflowState=False, syncEffectiveDate=None, syncExpirationDate=None, syncLocalRoles=False, comment=''):
+    def sync(self, syncWorkflowState=False, syncEffectiveDate=None, syncExpirationDate=None,
+             syncLocalRoles=False, syncTopicCriteria=False, comment=''):
+        if not (syncWorkflowState or syncEffectiveDate or syncExpirationDate or syncLocalRoles or syncTopicCriteria):
+            return
+        
         context = self.context.getCanonical()
         wf = getToolByName(context, 'portal_workflow')
         wf_id = wf.getChainFor(context)[0]
@@ -153,7 +164,12 @@ class SyncWorkflow(object):
                     for userid, roles in local_roles:
                         translation.manage_setLocalRoles(userid, roles)
 
-
+                if syncTopicCriteria:
+                    topic.syncTopicCriteria(context, translation)
+                    if isempty:
+                        isempty.reindexTree(translation)
+                    
+                translation.reindexObject()
 
 
 
