@@ -24,7 +24,7 @@ setup(name='valentine.linguaflow',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'collective.monkey',
       ],
       entry_points="""
       # -*- Entry points: -*-
