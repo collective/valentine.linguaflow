@@ -167,8 +167,9 @@ Sync local roles to translations
   >>> doc1.manage_setLocalRoles('tester', ('Manager',))
   >>> doc1.get_local_roles()
   (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
+  >>> doc1_sv.manage_setLocalRoles('tester2', ('Manager',))
   >>> doc1_sv.get_local_roles()
-  (('test_user_1_', ('Owner',)),)
+  (('test_user_1_', ('Owner',)), ('tester2', ('Manager',)))
 
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
   >>> label = 'Svenska (sv): %s' % doc1_sv.Title()

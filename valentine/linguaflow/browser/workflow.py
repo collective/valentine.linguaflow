@@ -161,6 +161,9 @@ class SyncWorkflow(object):
                         translation.setExpirationDate(expirationDate)                    
 
                 if syncLocalRoles:
+                    existingRoles = [ id for id, roles in translation.get_local_roles() ]
+                    if existingRoles:
+                        translation.manage_delLocalRoles(existingRoles)
                     for userid, roles in local_roles:
                         translation.manage_setLocalRoles(userid, roles)
 
