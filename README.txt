@@ -13,7 +13,7 @@ automatically use this product to validate/re-invalidate a translation.
 How does it work
 ________________
 
-"Suppose to work" - not there yet
+"Suppose to work" - not there yet, automatic invalidation is disabled as default
 
 valentine.linguaflow uses the capabilities of using multiple workflows for each
 content type. It ads a second workflow which has two transitions and states, 
@@ -25,9 +25,8 @@ transition it will save a diff of what has changed.
 Dependencies
 ____________
 
-Plone 2.5.x
-LinguaPlone (http://dev.plone.org/plone/browser/LinguaPlone/branches/plone-2.5-compatible)
-
+Plone 2.5.x or Plone 3.x
+LinguaPlone
 
 Credits
 -------
