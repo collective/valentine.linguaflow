@@ -4,6 +4,8 @@ Changelog
 0.2 - (Unreleased)
 ------------------
 
+- Fixed cache invalidation compatibility with Plone 3
+
 0.1 - (2010-03-21)
 ------------------
 

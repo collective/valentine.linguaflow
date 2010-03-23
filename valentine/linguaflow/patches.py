@@ -100,7 +100,8 @@ def invalidateTranslations(self, comment=''):
             cUpdate = TranslationObjectUpdate(self, translation,'invalidate',
                                               comment=comment)
             notify(cUpdate)
-    self.invalidateTranslationCache()
+    if hasattr(self, invalidateTranslationCache):
+        self.invalidateTranslationCache()
 
 
 linguaPatcher.wrap_method(I18NBaseObject, 'invalidateTranslations', invalidateTranslations)
