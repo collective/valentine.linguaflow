@@ -100,7 +100,7 @@ def invalidateTranslations(self, comment=''):
             cUpdate = TranslationObjectUpdate(self, translation,'invalidate',
                                               comment=comment)
             notify(cUpdate)
-    if hasattr(self, invalidateTranslationCache):
+    if hasattr(self, 'invalidateTranslationCache'):
         self.invalidateTranslationCache()
 
 
