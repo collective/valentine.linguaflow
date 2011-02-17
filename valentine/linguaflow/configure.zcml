@@ -15,6 +15,7 @@
       />
 
    <include package=".browser" />
+   <include package=".viewlets" />
    <include file="plone25.zcml" />
 
     <subscriber

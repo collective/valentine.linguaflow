@@ -1,0 +1,14 @@
+<dl class="portalMessage warning"
+    tal:condition="view/invalid">
+    <dt i18n:translate="">
+        Warning
+    </dt>
+    <tal:block tal:define="uptodate view/uptodate">
+    <dd tal:condition="not:uptodate" i18n:translate="translation_needs_updated">
+        This translation needs to be updated.
+    </dd>
+    <dd tal:condition="uptodate">
+        If this translations is up to date please confirm by <a tal:attributes="href string:${context/absolute_url}/content_status_modify?workflow_action=validate">validating it</a>.
+    </dd>
+    </tal:block>
+</dl>
