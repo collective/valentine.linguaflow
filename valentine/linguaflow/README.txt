@@ -53,7 +53,6 @@ Translation invalidation
 Now if we edit the canonical we can invalidate all translations.
 
   >>> doc1.processForm(values={'text':'Changed text of doc one'})
-  OK
   >>> wf.doActionFor(doc1_sv, 'invalidate', comment='Fields changed: text')
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
   >>> hist[1]['review_state']
