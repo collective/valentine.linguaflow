@@ -82,6 +82,32 @@ in canonical.
   >>> wf.getInfoFor(doc1_sv, 'review_state', None, linguaflow.getId())
   'valid'
 
+Validation viewlet
+------------------
+
+I'll create a viewlet and ceck if all attributes are properly rendered.
+
+  >>> from valentine.linguaflow.viewlets.checkvalidation import CheckValidation
+  >>> from zope.publisher.browser import TestRequest
+  >>> request = TestRequest()
+  >>> viewlet = CheckValidation(doc1_sv, request, None, None)
+  >>> viewlet.update()
+  >>> viewlet.invalid
+  False
+  >>> wf.doActionFor(doc1_sv, 'invalidate')
+  >>> viewlet.update()
+  >>> viewlet.invalid
+  True
+  >>> viewlet.uptodate
+  False
+  >>> from DateTime import DateTime
+  >>> now = DateTime()
+  >>> # I add 2 seconds here because I substract them in a viewlet
+  >>> doc1_sv.setModificationDate(now+ (1.0 / 24 / 3600 * 2)) 
+  >>> viewlet.update()
+  >>> viewlet.uptodate
+  True
+  
   
 Synchronization
 ---------------
