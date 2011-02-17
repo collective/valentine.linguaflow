@@ -38,6 +38,13 @@
 	permission="cmf.ModifyPortalContent"
 	for="*"
 	 />
+    <browser:page
+	for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+	name="linguaflow_reminder_mail"
+	attribute="send"
+	permission="cmf.ManagePortal"
+	class="valentine.linguaflow.browser.remindermail.ReminderMail"
+	/>
 
 
 </configure>
