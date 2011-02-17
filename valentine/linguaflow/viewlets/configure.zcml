@@ -8,6 +8,7 @@
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         class=".checkvalidation.CheckValidation"
         permission="cmf.ModifyPortalContent"
+        layer="Products.LinguaPlone.interfaces.ILinguaPloneProductLayer"
         />
               
 
