@@ -8,8 +8,9 @@ We prepare languages, we will have english as default and swedish and
 polish as available languages for translation.
 
   >>> from Products.CMFCore.utils import getToolByName
-  >>> lt = getToolByName(portal, 'portal_languages')
-  >>> lt.manage_setLanguageSettings('en', ('en','sv','pl'))
+  >>> from Products.LinguaPlone.browser import controlpanel
+  >>> adapter = controlpanel.IMultiLanguageSelectionSchema(self.portal)
+  >>> adapter.set_available_languages(('en','sv','pl'))
 
 Now we create some content and translations.
  
@@ -21,8 +22,10 @@ Now we create some content and translations.
   >>> doc2 = folder.doc2
   
   >>> doc1.addTranslation('sv')
+  <ATDocument at /plone/folder/doc1-sv>
   >>> doc1_sv = doc1.getTranslation('sv')
   >>> doc1.addTranslation('pl')
+  <ATDocument at /plone/folder/doc1-pl>
   >>> doc1_pl = doc1.getTranslation('pl')
 
   >>> doc1_sv.setTitle('Dok ett')
@@ -50,6 +53,7 @@ Translation invalidation
 Now if we edit the canonical we can invalidate all translations.
 
   >>> doc1.processForm(values={'text':'Changed text of doc one'})
+  OK
   >>> wf.doActionFor(doc1_sv, 'invalidate', comment='Fields changed: text')
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1_sv)
   >>> hist[1]['review_state']
@@ -96,11 +100,11 @@ If we return to our documents created above we can se that they have default
 state in their default workflow.
 
   >>> wf.getInfoFor(doc1, 'review_state')
-  'visible'
+  'private'
   >>> wf.getInfoFor(doc1_sv, 'review_state')
-  'visible'
+  'private'
   >>> wf.getInfoFor(doc1_pl, 'review_state')
-  'visible'
+  'private'
 
 Now we change the state of the canonical and we'll see that the translations didn't follow:
 
@@ -108,9 +112,9 @@ Now we change the state of the canonical and we'll see that the translations did
   >>> wf.getInfoFor(doc1, 'review_state')
   'published'
   >>> wf.getInfoFor(doc1_sv, 'review_state')
-  'visible'
+  'private'
   >>> wf.getInfoFor(doc1_pl, 'review_state')
-  'visible'
+  'private'
 
   >>> doc1.reindexObject()
   >>> doc1_sv.reindexObject()
@@ -128,8 +132,6 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> browser.getControl(name='__ac_password').value = default_password
   >>> browser.getControl(name='submit').click()
   >>> browser.open(doc1_sv.absolute_url() + '/edit') 
-  >>> browser.contents
-  '...">Public Draft</span>...'
 
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
   >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
