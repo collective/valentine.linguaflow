@@ -3,6 +3,7 @@ Changelog
 
 0.3 - (unreleased)
 ------------------
+ - Fixed bulk reset of expiration_date [voineali - EEA #3956]
 
 0.2 - (2010-03-25)
 ------------------

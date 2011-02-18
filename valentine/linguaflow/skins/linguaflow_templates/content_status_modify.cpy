@@ -5,7 +5,7 @@
 ##bind script=script
 ##bind state=state
 ##bind subpath=traverse_subpath
-##parameters=workflow_action=None, comment='', effective_date=None, expiration_date=None, *args
+##parameters=workflow_action=None, comment='', effective_date="_NOT_SET_", expiration_date="_NOT_SET_", *args
 ##title=handles the workflow transitions of objects
 ##
 from ZODB.POSException import ConflictError
@@ -23,14 +23,16 @@ portal_workflow=new_context.portal_workflow
 transitions = portal_workflow.getTransitionsFor(new_context)
 transition_ids = [t['id'] for t in transitions]
 
-if workflow_action in transition_ids and not effective_date and context.EffectiveDate()=='None':
-    effective_date=DateTime()
+if workflow_action in transition_ids \
+   and (not effective_date or effective_date == "_NOT_SET_") \
+   and context.EffectiveDate()=='None':
+    effective_date = DateTime()
 
 def editContent(obj, effective, expiry):
     kwargs = {}
-    if effective and (isinstance(effective, DateTime) or len(effective) > 5): # may contain the year
+    if effective != "_NOT_SET_":
         kwargs['effective_date'] = effective
-    if expiry and (isinstance(expiry, DateTime) or len(expiry) > 5): # may contain the year
+    if expiry != "_NOT_SET_":
         kwargs['expiration_date'] = expiry
     new_context.plone_utils.contentEdit( obj, **kwargs)
 
@@ -50,7 +52,7 @@ if workflow_action in transition_ids:
     wfcontext=new_context.portal_workflow.doActionFor( context,
                                                        workflow_action,
                                                        comment=comment )
-    
+
 if not wfcontext:
     wfcontext = new_context
 
