@@ -19,6 +19,9 @@ class CheckValidation(ViewletBase):
         """
         context = self.context
         wf = getToolByName(context, 'portal_workflow')
+        if 'linguaflow' not in wf.getChainFor(context):
+            self.invalid = False
+            return
         linguaflow = wf.linguaflow
         linguaState = wf.getInfoFor(context, 'review_state', None, linguaflow.getId())
         self.invalid = invalid = linguaState == 'invalid'
