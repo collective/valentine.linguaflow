@@ -18,18 +18,14 @@
                    .events.ITranslationObjectUpdate"
               handler=".events.notifyCanonicalUpdate" />
 
-  <monkey:patch
-      description="Find out what language dependent fields have changed"
-      class="Products.LinguaPlone.I18NBaseObject.I18NBaseObject"
-      original="processForm"
-      replacement=".patches.processForm"
-      />
+  <monkey:patch description="Find out what language dependent fields have changed"
+                class="Products.LinguaPlone.I18NBaseObject.I18NBaseObject"
+                original="processForm"
+                replacement=".patches.processForm" />
 
-  <monkey:patch
-      description="Marks the translation as outdated"
-      class="Products.LinguaPlone.I18NBaseObject.I18NBaseObject"
-      original="invalidateTranslations"
-      replacement=".patches.invalidateTranslations"
-      />
+  <monkey:patch description="Marks the translation as outdated"
+                class="Products.LinguaPlone.I18NBaseObject.I18NBaseObject"
+                original="invalidateTranslations"
+                replacement=".patches.invalidateTranslations" />
 
 </configure>

@@ -1,16 +1,12 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="valentine.linguaflow">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="valentine.linguaflow">
 
-    <browser:viewlet
-        name="valentine.linguaflow_checkvalidation"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-        class=".checkvalidation.CheckValidation"
-        permission="cmf.ModifyPortalContent"
-        layer="Products.LinguaPlone.interfaces.ILinguaPloneProductLayer"
-        />
-              
+  <browser:viewlet name="valentine.linguaflow_checkvalidation"
+                   manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+                   class=".checkvalidation.CheckValidation"
+                   permission="cmf.ModifyPortalContent"
+                   layer="Products.LinguaPlone.interfaces.ILinguaPloneProductLayer" />
 
 </configure>
 

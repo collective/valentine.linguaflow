@@ -3,10 +3,18 @@
            i18n_domain="valentine.linguaflow">
 
   <genericsetup:registerProfile
-    name="default"
-    title="Valentine Linguaflow"
-    directory="profiles/default"
-    description="Profile for Valentine Linguaflow"
-    provides="Products.GenericSetup.interfaces.EXTENSION" />
+          name="default"
+          title="Valentine Linguaflow"
+          directory="profiles/default"
+          description="Profile for Valentine Linguaflow"
+          provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+  <genericsetup:importStep
+          name="eea.themecentre.various"
+          title="Valentine Linguaflow: miscellaneous import steps"
+          description="Various setup for valentine.linguaflow"
+          handler="valentine.linguaflow.setuphandlers.setupVarious">
+    <depends name="workflows" />
+  </genericsetup:importStep>
 
 </configure>

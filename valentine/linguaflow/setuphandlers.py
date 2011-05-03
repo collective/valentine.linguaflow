@@ -1,15 +1,10 @@
 from Products.CMFCore.utils import getToolByName
 
 def setupVarious(context):
-    
-    # Ordinarily, GenericSetup handlers check for the existence of XML files.
-    # Here, we are not parsing an XML file, but we use this text file as a 
-    # flag to check that we actually meant for this import step to be run.
-    # The file is found in profiles/default.
-    
+
     if context.readDataFile('valentine.linguaflow_various.txt') is None:
         return
-        
+
     # Add linguaflow workflow as parallel default workflow
     portal = context.getSite()
     wf = getToolByName(portal, 'portal_workflow')
@@ -23,5 +18,3 @@ def setupVarious(context):
     if 'linguaflow' not in folder_chain:
         folder_chain.append('linguaflow')
         wf.setChainForPortalTypes(('Folder',), folder_chain)
-        
-    
