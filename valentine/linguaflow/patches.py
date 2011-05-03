@@ -1,6 +1,9 @@
 from zope.event import notify
 from md5 import md5
 from valentine.linguaflow.events import TranslationObjectUpdate
+from Products.Archetypes.atapi import BaseObject
+from Products.Archetypes.utils import shasattr
+from Products.LinguaPlone import config
 
 def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     """ Find out what language dependent fields have changed. """
