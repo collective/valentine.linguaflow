@@ -1,19 +1,24 @@
-from setuptools import setup, find_packages
+""" Valentine Linguaflow installer
+"""
 import os
+from os.path import join
+from setuptools import setup, find_packages
 
-version = '0.3svn'
+name = 'valentine.linguaflow'
+path = name.split('.') + ['version.txt']
+version = open(join(*path)).read().strip()
 
-setup(name='valentine.linguaflow',
+setup(name=name,
       version=version,
-      description="",
+      description="Valentine Linguaflow",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Framework :: Plone",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-      keywords='',
+      keywords='linguaplone linguaflow',
       author='Sasha Vincic',
       author_email='sasha dot vincic at valentinewebsystems dot com',
       url='http://svn.plone.org/svn/collective/valentine.linguaflow/trunk/',
@@ -24,7 +29,8 @@ setup(name='valentine.linguaflow',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'collective.monkey',
+          'collective.monkeypatcher',
+          'Products.LinguaPlone',
       ],
       entry_points="""
       # -*- Entry points: -*-

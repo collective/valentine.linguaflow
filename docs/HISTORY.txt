@@ -1,17 +1,17 @@
 Changelog
 =========
 
-0.3 - (unreleased)
+4.0 - (unreleased)
 ------------------
- - Fixed bulk reset of expiration_date [voineali - EEA #3956]
+ * Change: replace dependecy to collective.monkey with
+     collective.monkeypatcher [ghicaale - EEA #4295]
+ * Feature: Plone 4.0.4 compatible release [ghicaale - EEA #4295]
+ * Fixed bulk reset of expiration_date [voineali - EEA #3956]
 
 0.2 - (2010-03-25)
 ------------------
-
-- Fixed cache invalidation compatibility with Plone 3
+ * Fixed cache invalidation compatibility with Plone 3
 
 0.1 - (2010-03-21)
 ------------------
-
-* Initial release
-
+ * Initial release

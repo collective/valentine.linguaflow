@@ -1,15 +1,6 @@
 from zope.event import notify
-
 from md5 import md5
-
-from collective.monkey.monkey import Patcher
 from valentine.linguaflow.events import TranslationObjectUpdate
-
-
-linguaPatcher = Patcher('LinguaPlone')
-
-#LinguaPlone patches
-from Products.LinguaPlone.I18NBaseObject import *
 
 def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     """ Find out what language dependent fields have changed. """
@@ -38,7 +29,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             # save a hash for old value
             accessor = field.getAccessor(self)
             oldValues[field.getName()] = md5(str(accessor())).hexdigest()
-            
+
     # START LinguaPlone.I18NBaseObject.processForm method
     is_new_object = self.checkCreationFlag()
     BaseObject.processForm(self, data, metadata, REQUEST, values)
@@ -46,7 +37,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     #
     # Translation invalidation moved to the end
     #
-    
+
     if self._at_rename_after_creation and is_new_object:
         new_id = self._renameAfterCreation()
     else:
@@ -69,7 +60,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             if shasattr(parent, 'setDefaultPage'):
                 parent.setDefaultPage(new_id)
 
-            
+
     if shasattr(self, '_lp_outdated'):
         delattr(self, '_lp_outdated')
     # END - LinguaPlone.I18NBaseObject.processForm method
@@ -102,8 +93,3 @@ def invalidateTranslations(self, comment=''):
             notify(cUpdate)
     if hasattr(self, 'invalidateTranslationCache'):
         self.invalidateTranslationCache()
-
-
-linguaPatcher.wrap_method(I18NBaseObject, 'invalidateTranslations', invalidateTranslations)
-linguaPatcher.wrap_method(I18NBaseObject, 'processForm', processForm)
-
