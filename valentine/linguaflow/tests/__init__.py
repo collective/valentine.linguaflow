@@ -1,1 +1,2 @@
-# marker
+""" Tests package
+"""

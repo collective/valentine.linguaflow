@@ -13,14 +13,14 @@ polish as available languages for translation.
   >>> adapter.set_available_languages(('en','sv','pl'))
 
 Now we create some content and translations.
- 
+
   >>> portal = self.portal
   >>> folder = portal.folder
   >>> did = folder.invokeFactory('Document', id='doc1', title="Doc one", text='Some doc one text')
   >>> did = folder.invokeFactory('Document', id='doc2', title="Doc two", text='Some doc two text')
   >>> doc1 = folder.doc1
   >>> doc2 = folder.doc2
-  
+
   >>> doc1.addTranslation('sv')
   <ATDocument at /plone/folder/doc1-sv>
   >>> doc1_sv = doc1.getTranslation('sv')
@@ -36,7 +36,7 @@ content types that use the default one will automaticall have it.
 
   >>> wf = getToolByName(portal, 'portal_workflow')
   >>> linguaflow = wf.linguaflow
- 
+
 Let check status on our fresh content.
 
   >>> hist = wf.getHistoryOf(linguaflow.getId(), doc1)
@@ -103,25 +103,25 @@ I'll create a viewlet and ceck if all attributes are properly rendered.
   >>> from DateTime import DateTime
   >>> now = DateTime()
   >>> # I add 2 seconds here because I substract them in a viewlet
-  >>> doc1_sv.setModificationDate(now+ (1.0 / 24 / 3600 * 2)) 
+  >>> doc1_sv.setModificationDate(now+ (1.0 / 24 / 3600 * 2))
   >>> viewlet.update()
   >>> viewlet.uptodate
   True
-  
-  
+
+
 Synchronization
 ---------------
 
-With LinguaPlone translations are independent objects and language independent 
-fields are maintained by LinguaPlone but if you want to synchronize other 
+With LinguaPlone translations are independent objects and language independent
+fields are maintained by LinguaPlone but if you want to synchronize other
 properties like workflow_state, criteria in a SmartFolder/Topic/Collection (all
-those names for same thing), zmi properites, default page or layout then 
+those names for same thing), zmi properites, default page or layout then
 the synchronization in valentine.linguaflow will help you.
 
 Workflow synchronization
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If we return to our documents created above we can se that they have default 
+If we return to our documents created above we can se that they have default
 state in their default workflow.
 
   >>> wf.getInfoFor(doc1, 'review_state')
@@ -156,9 +156,9 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> browser.getControl(name='__ac_name').value = portal_owner
   >>> browser.getControl(name='__ac_password').value = default_password
   >>> browser.getControl(name='submit').click()
-  >>> browser.open(doc1_sv.absolute_url() + '/edit') 
+  >>> browser.open(doc1_sv.absolute_url() + '/edit')
 
-  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
+  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form')
   >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
   >>> browser.getControl(label).selected = True
   >>> browser.getControl('Expiration date').selected = True
@@ -167,12 +167,12 @@ But now a manager can go to manage_translation_form and synchronize the workflow
 
   >>> wf.getInfoFor(doc1, 'review_state')
   'published'
-  >>> [p['name'] for p in doc1.permissionsOfRole('Anonymous') 
+  >>> [p['name'] for p in doc1.permissionsOfRole('Anonymous')
   ...    if p['selected'] ]
   ['Access contents information', 'View']
   >>> wf.getInfoFor(doc1_sv, 'review_state')
   'published'
-  >>> [p['name'] for p in doc1_sv.permissionsOfRole('Anonymous') 
+  >>> [p['name'] for p in doc1_sv.permissionsOfRole('Anonymous')
   ...    if p['selected'] ]
   ['Access contents information', 'View']
   >>> wf.getInfoFor(doc1_pl, 'review_state')
@@ -190,7 +190,7 @@ In your code you can sync with event
 Sync local roles to translations
 
   >>> doc1.get_local_roles()
-  (('test_user_1_', ('Owner',)),)  
+  (('test_user_1_', ('Owner',)),)
   >>> doc1.manage_setLocalRoles('tester', ('Manager',))
   >>> doc1.get_local_roles()
   (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
@@ -198,7 +198,7 @@ Sync local roles to translations
   >>> doc1_sv.get_local_roles()
   (('test_user_1_', ('Owner',)), ('tester2', ('Manager',)))
 
-  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form') 
+  >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form')
   >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
   >>> browser.getControl(label).selected = True
   >>> label = 'Polski (pl): %s' % doc1_pl.Title()

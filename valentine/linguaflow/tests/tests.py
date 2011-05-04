@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
+""" Doctest runner for 'valentine.linguaflow'
 """
-Doctest runner for 'valentine.linguaflow'
-"""
-__docformat__ = 'restructuredtext'
-
 import base
-
 from zope.testing import doctest
+from Testing.ZopeTestCase import ZopeDocFileSuite
+from unittest import TestSuite
+
 optionflags =  (doctest.ELLIPSIS |
                 doctest.NORMALIZE_WHITESPACE |
                 doctest.REPORT_ONLY_FIRST_FAILURE)
@@ -18,9 +16,7 @@ def setUp(root):
     portal.portal_workflow.doActionFor(portal[ourId], 'publish')
 
 def test_suite():
-    from unittest import TestSuite
     suite = TestSuite()
-    from Testing.ZopeTestCase import ZopeDocFileSuite
     suite.addTest(ZopeDocFileSuite(
                 'README.txt',
                 setUp=setUp,
