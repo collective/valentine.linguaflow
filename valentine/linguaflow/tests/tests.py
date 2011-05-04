@@ -1,7 +1,7 @@
 """ Doctest runner for 'valentine.linguaflow'
 """
 import base
-from zope.testing import doctest
+import doctest
 from Testing.ZopeTestCase import ZopeDocFileSuite
 from unittest import TestSuite
 
@@ -20,7 +20,6 @@ def test_suite():
     suite.addTest(ZopeDocFileSuite(
                 'README.txt',
                 setUp=setUp,
-                #tearDown=tearDown,
                 package="valentine.linguaflow",
                 test_class=base.ValentineLinguaflowFunctionalTestCase,
                 optionflags=optionflags),

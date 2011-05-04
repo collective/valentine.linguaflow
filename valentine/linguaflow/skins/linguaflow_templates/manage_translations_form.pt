@@ -142,7 +142,7 @@
             </div>
 
             <div class="field"
-                 tal:define="startup_directory python:here.referencebrowser_startupDirectory('');
+                 tal:define="startup_directory python:'/'.join(here.getPhysicalPath());
                              value request/link_content | nothing;
                              fieldName string:link_content;
                              fieldRealName fieldName;
@@ -208,7 +208,7 @@
                        value="Link Translation"
                        />
             </div>
-        
+
         </fieldset>
 
         </form>
@@ -255,23 +255,19 @@
                                />
                         <label for="remove_language"
                                tal:attributes="for python:'remove_' + lang[0]"
-                               tal:content="python:'%s (%s): %s' % (lang[1], lang[0], lang[2])"
-                               />
-                        <label for="remove_language"
-                               tal:attributes="for python:'remove_' + lang[0]"
-                               tal:content="python:'(%s)' % lang[3]"
+                               tal:content="python:'%s (%s): %s (%s)' % (lang[1]['name'], lang[0], lang[2], lang[3])"
                                />
                     </div>
                 </div>
 
-		
+
                 <div class="field">
                     <h3>Fields to sync</h3>
                         <input type="checkbox"
                                class="noborder"
                                id="syncWorkflowState"
                                name="syncWorkflowState"
- 			       checked="checked"
+                               checked="checked"
                                />
                         <label for="syncEffectiveDate"
                               >Workflow state</label>
@@ -300,7 +296,7 @@
                         <label for="syncLocalRoles"
                               >Local roles</label>
 
-		<tal:topic tal:condition="python:context.portal_type in ['Topic', 'RichTopic']">
+                <tal:topic tal:condition="python:context.portal_type in ['Topic', 'RichTopic']">
                         <input type="checkbox"
                                class="noborder"
                                id="syncTopicCriteria"
@@ -308,10 +304,10 @@
                                />
                         <label for="syncTopicCriteria"
                               >Topic criteria</label>
-	        </tal:topic>
+                </tal:topic>
                 </div>
 
-		
+
                 <div class="formControls">
                     <input class="destructive"
                            type="submit"

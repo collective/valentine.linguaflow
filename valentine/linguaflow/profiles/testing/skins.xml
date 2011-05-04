@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <object name="portal_skins" meta_type="Plone Skins Tool" allow_any="False"
-   cookie_persistence="False" 
+   cookie_persistence="False"
    request_varname="plone_skin">
 
  <object name="linguaflow_templates" meta_type="Filesystem Directory View"
-    directory="linguaflow/skins/linguaflow_templates"/>
+    directory="valentine.linguaflow:skins/linguaflow_templates"/>
 
 
  <skin-path name="*" based-on="Plone Default">

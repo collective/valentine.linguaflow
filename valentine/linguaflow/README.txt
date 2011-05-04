@@ -152,14 +152,14 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> browser = Browser()
   >>> browser.handleErrors = False
   >>> self.portal.error_log._ignored_exceptions = ()
-  >>> browser.open(self.portal.absolute_url())
+  >>> browser.open(self.portal.absolute_url() + '/login_form')
   >>> browser.getControl(name='__ac_name').value = portal_owner
   >>> browser.getControl(name='__ac_password').value = default_password
   >>> browser.getControl(name='submit').click()
   >>> browser.open(doc1_sv.absolute_url() + '/edit')
 
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form')
-  >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
+  >>> label = 'Swedish (sv): %s (private)' % doc1_sv.Title()
   >>> browser.getControl(label).selected = True
   >>> browser.getControl('Expiration date').selected = True
   >>> browser.getControl('Effective date').selected = True
@@ -176,7 +176,7 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   ...    if p['selected'] ]
   ['Access contents information', 'View']
   >>> wf.getInfoFor(doc1_pl, 'review_state')
-  'visible'
+  'private'
 
 In your code you can sync with event
 
@@ -199,9 +199,9 @@ Sync local roles to translations
   (('test_user_1_', ('Owner',)), ('tester2', ('Manager',)))
 
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form')
-  >>> label = 'Svenska (sv): %s' % doc1_sv.Title()
+  >>> label = 'Swedish (sv): %s (published)' % doc1_sv.Title()
   >>> browser.getControl(label).selected = True
-  >>> label = 'Polski (pl): %s' % doc1_pl.Title()
+  >>> label = 'Polish (pl): %s (published)' % doc1_pl.Title()
   >>> browser.getControl(label).selected = True
   >>> browser.getControl('Local roles').selected = True
   >>> browser.getControl(name='linguaflow_syncworkflow:method').click()
@@ -210,4 +210,3 @@ Sync local roles to translations
   (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
   >>> doc1_pl.get_local_roles()
   (('test_user_1_', ('Owner',)), ('tester', ('Manager',)))
-

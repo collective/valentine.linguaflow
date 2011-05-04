@@ -5,4 +5,8 @@
  <object name="linguaflow_templates" meta_type="Filesystem Directory View"
          directory="valentine.linguaflow:skins/linguaflow_templates"/>
 
+ <skin-path name="*">
+  <layer name="linguaflow_templates" insert-after="custom" />
+ </skin-path>
+
 </object>
