@@ -1,5 +1,4 @@
 from zope.event import notify
-#TODO: plone4, fix deprecatation warning, replace md5 with hashlib
 from md5 import md5
 from valentine.linguaflow.events import TranslationObjectUpdate
 from Products.Archetypes.atapi import BaseObject

@@ -1,7 +1,6 @@
 from zope.interface import Attribute, implements
 from zope.component import getMultiAdapter
 from zope.component.interfaces import IObjectEvent
-
 from Products.CMFCore.utils import getToolByName
 
 class ITranslationObjectUpdate(IObjectEvent):
@@ -56,5 +55,3 @@ def syncronizeTranlationWorkflow(obj, event):
     view = getMultiAdapter((obj, obj.REQUEST), name=u"linguaflow_syncworkflow")
     view.languages = [event.translation.Language()]
     view.sync(syncWorkflowState=True, comment=event.comment)
-
-

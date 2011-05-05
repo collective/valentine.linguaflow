@@ -1,13 +1,14 @@
 from Products.Five import BrowserView
 from Products.CMFPlone.utils import getToolByName
 import logging
+
 logger = logging.getLogger('Plone')
 
 class ReminderMail(BrowserView):
     """
     View to update all feeds
     """
-    
+
     def send(self):
         """
         Send reminder mail

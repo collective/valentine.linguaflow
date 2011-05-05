@@ -1,23 +1,18 @@
 from zope.event import notify
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone import PloneMessageFactory as _
-
 from valentine.linguaflow.events import TranslationObjectUpdate
 from DateTime import DateTime
-import topic
-try:
-    from Products.NavigationManager import catalog as isempty
-except:
-    isempty = False
-    
+from valentine.linguaflow.browser.topic import syncTopicCriteria as stc
+
+
 class WorkflowHistory(object):
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        
+
     def histories(self):
         """Return workflow history of this context.
 
@@ -27,7 +22,7 @@ class WorkflowHistory(object):
 
         workflow = getToolByName(context, 'portal_workflow')
         membership = getToolByName(context, 'portal_membership')
-        
+
         history = {}
 
         # check if the current user has the proper permissions
@@ -46,7 +41,7 @@ class WorkflowHistory(object):
                                                                                  self.context.portal_type)
                         else:
                             r['transition_title'] = ''
-                        
+
                         actorid = r['actor']
                         r['actorid'] = actorid
                         if actorid is None:
@@ -63,7 +58,7 @@ class WorkflowHistory(object):
                                 r['actor_home'] = ''
                     review_history.reverse()
                     history[wfId] = review_history
-                    
+
             except WorkflowException:
                 log( 'valentine.linguaflow: '
                      '%s has no associated workflow' % self.context.absolute_url(), severity=logging.DEBUG)
@@ -74,7 +69,7 @@ class WorkflowHistory(object):
 class LinguaflowInvalidateAll(object):
     """ Called by invalidate all transition in lingua flow. Here we redistribute
         invalidate translation to each translation. """
-    
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -91,7 +86,7 @@ class LinguaflowInvalidateAll(object):
 class LinguaflowValidateAll(object):
     """ Called by validate all transition in lingua flow. Here we redistribute
         validate translation to each translation. """
-    
+
     def __init__(self, context, request):
         self.context = context.getCanonical()
         self.request = request
@@ -99,11 +94,11 @@ class LinguaflowValidateAll(object):
     def __call__(self):
         context = self.context
         comment = self.request.get('comment', 'Validate all translations initiated.')
-        translations = context.getNonCanonicalTranslations()                                             
+        translations = context.getNonCanonicalTranslations()
         for lang in translations.keys():
             translation = translations[lang][0]
             cUpdate = TranslationObjectUpdate(context, translation,'validate',comment=comment)
-            notify(cUpdate)                       
+            notify(cUpdate)
         self.request.RESPONSE.redirect(context.absolute_url())
 
 
@@ -113,11 +108,11 @@ class SyncWorkflow(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.languages = request.get('languages',[])        
-        
+        self.languages = request.get('languages',[])
+
     def __call__(self):
         comment = self.request.get('comment', 'Sync workflow state')
-        expirationDate = self.request.get('syncExpirationDate', None) 
+        expirationDate = self.request.get('syncExpirationDate', None)
         effectiveDate = self.request.get('syncEffectiveDate', None)
         syncLocalRoles = self.request.get('syncLocalRoles', False)
         syncWorkflowState = self.request.get('syncWorkflowState', False)
@@ -125,12 +120,12 @@ class SyncWorkflow(object):
         self.sync(syncWorkflowState, effectiveDate, expirationDate, syncLocalRoles, syncTopicCriteria,
                   comment=comment)
         self.request.RESPONSE.redirect(self.context.absolute_url() + '/manage_translations_form')
-                
+
     def sync(self, syncWorkflowState=False, syncEffectiveDate=None, syncExpirationDate=None,
              syncLocalRoles=False, syncTopicCriteria=False, comment=''):
         if not (syncWorkflowState or syncEffectiveDate or syncExpirationDate or syncLocalRoles or syncTopicCriteria):
             return
-        
+
         context = self.context.getCanonical()
         wf = getToolByName(context, 'portal_workflow')
         wf_id = wf.getChainFor(context)[0]
@@ -153,12 +148,12 @@ class SyncWorkflow(object):
                         translation_history.append(last_transition)
                         translation.workflow_history[wf_id] = tuple(translation_history)
                         wf.getWorkflowById(wf_id).updateRoleMappingsFor(translation)
-                        
+
                     if effectiveDate is not None:
                         translation.setEffectiveDate(effectiveDate)
 
                     if expirationDate is not None:
-                        translation.setExpirationDate(expirationDate)                    
+                        translation.setExpirationDate(expirationDate)
 
                 if syncLocalRoles:
                     existingRoles = [ id for id, roles in translation.get_local_roles() ]
@@ -168,10 +163,8 @@ class SyncWorkflow(object):
                         translation.manage_setLocalRoles(userid, roles)
 
                 if syncTopicCriteria:
-                    topic.syncTopicCriteria(context, translation)
-                    if isempty:
-                        isempty.reindexTree(translation)
-                    
+                    stc(context, translation)
+
                 translation.reindexObject()
 
 

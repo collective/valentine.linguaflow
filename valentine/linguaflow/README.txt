@@ -156,7 +156,6 @@ But now a manager can go to manage_translation_form and synchronize the workflow
   >>> browser.getControl(name='__ac_name').value = portal_owner
   >>> browser.getControl(name='__ac_password').value = default_password
   >>> browser.getControl(name='submit').click()
-  >>> browser.open(doc1_sv.absolute_url() + '/edit')
 
   >>> browser.open(doc1_sv.absolute_url() + '/manage_translations_form')
   >>> label = 'Swedish (sv): %s (private)' % doc1_sv.Title()

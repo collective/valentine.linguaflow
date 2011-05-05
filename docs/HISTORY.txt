@@ -1,5 +1,6 @@
 Changelog
 =========
+[Sasha Vincic - Valentine Web Systems]
 
 4.0 - (unreleased)
 ------------------
