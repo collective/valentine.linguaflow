@@ -4,9 +4,7 @@ from Products.CMFCore.utils import getToolByName
 
 def syncTopicCriteria(canonical, translation):
     """ Sync topic criteria """
-    portal = getToolByName(canonical, 'portal_url').getPortalObject()
     portal_types = getToolByName(canonical, 'portal_types')
-
 
     # get the translated object by taking the first part of the url
     for obj in canonical.objectValues():

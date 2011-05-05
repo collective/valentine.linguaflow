@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 class CheckValidation(ViewletBase):
     """ Check validation """
-    #TODO: in-place invalidation doesn't show this vielet
+    #TODO: in-place invalidation doesn't show this viewlet
     index = ViewPageTemplateFile('checkvalidation.pt')
 
     def update(self):
