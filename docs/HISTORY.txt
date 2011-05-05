@@ -4,6 +4,7 @@ Changelog
 
 4.0 - (unreleased)
 ------------------
+ * Cleanup: Fixed all pylint, pyflakes violations [ghicaale - EEA #4295]
  * Change: replace dependecy to collective.monkey with
      collective.monkeypatcher [ghicaale - EEA #4295]
  * Feature: Plone 4.0.4 compatible release [ghicaale - EEA #4295]

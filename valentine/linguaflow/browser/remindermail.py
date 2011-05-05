@@ -1,3 +1,5 @@
+""" Reminder email
+"""
 from Products.Five import BrowserView
 from Products.CMFPlone.utils import getToolByName
 import logging
@@ -17,7 +19,10 @@ class ReminderMail(BrowserView):
         ct = getToolByName(portal, 'portal_catalog')
         wf = getToolByName(portal, 'portal_workflow')
         doActionFor = wf.doActionFor
-        invalidTranslations = [b.getObject() for b in ct(Language='all', lingua_state='invalid')]
+        invalidTranslations = \
+                   [b.getObject() for b in ct(Language='all',
+                                              lingua_state='invalid')]
         for translation in invalidTranslations:
-            wf.doActionFor(translation, 'notify_editors')
-        logger.info('valentine.linguaflow: Notified editors about %d invalidated translations', len(invalidTranslations))
+            doActionFor(translation, 'notify_editors')
+        logger.info('valentine.linguaflow: Notified editors about %d '
+                    'invalidated translations', len(invalidTranslations))

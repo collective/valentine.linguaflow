@@ -1,3 +1,5 @@
+""" Base module
+"""
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase
@@ -20,7 +22,7 @@ PloneTestCase.setupPloneSite(
                                      'valentine.linguaflow.tests:testing'))
 
 class ValentineLinguaflowTestCase(PloneTestCase.PloneTestCase):
-    """ """
+    """ Valentine Linguaflow Test Case """
 
 class ValentineLinguaflowFunctionalTestCase(PloneTestCase.FunctionalTestCase):
-    """ """
+    """ Valentine Linguaflow Functional Test Case """

@@ -1,3 +1,5 @@
+""" Events
+"""
 from zope.interface import Attribute, implements
 from zope.component import getMultiAdapter
 from zope.component.interfaces import IObjectEvent
@@ -10,7 +12,8 @@ class ITranslationObjectUpdate(IObjectEvent):
     object = Attribute("The canonical object.")
     translation = Attribute("The translation target object.")
     action = Attribute("The workflow action to perform.")
-    comment = Attribute("The workflow comment, should contain which fields have changed.")
+    comment = Attribute("The workflow comment, should contain which fields "
+                        "have changed.")
 
 class TranslationObjectUpdate(object):
     """Sent after an canonical or translation object has been edited.
@@ -26,23 +29,24 @@ class TranslationObjectUpdate(object):
         self.comment = comment
 
 def notifyCanonicalUpdate(obj, event):
-    # catch all ITranslatable modified
+    """ catch all ITranslatable modified """
     if event.comment:
         wt = getToolByName(obj, 'portal_workflow')
         if 'linguaflow' in wt.getChainFor(obj):
-            wt.doActionFor(event.translation, event.action, comment=event.comment )
-
+            wt.doActionFor(event.translation,
+                           event.action,
+                           comment=event.comment )
 
 class ISyncWorkflowEvent(IObjectEvent):
     """ Make sure translation workflow status is the same as canonicals. """
 
     object = Attribute("The canonical object.")
     translation = Attribute("The translation target object.")
-    comment = Attribute("The workflow comment, should contain which fields have changed.")
-
+    comment = Attribute("The workflow comment, should contain which fields "
+                        "have changed.")
 
 class SyncWorkflowEvent(object):
-    """ """
+    """ Sync Workflow Event """
 
     implements(ISyncWorkflowEvent)
 
@@ -52,6 +56,7 @@ class SyncWorkflowEvent(object):
         self.comment = comment
 
 def syncronizeTranlationWorkflow(obj, event):
+    """ Syncronize Tranlation Workflow """
     view = getMultiAdapter((obj, obj.REQUEST), name=u"linguaflow_syncworkflow")
     view.languages = [event.translation.Language()]
     view.sync(syncWorkflowState=True, comment=event.comment)

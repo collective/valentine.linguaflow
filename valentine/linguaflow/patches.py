@@ -1,14 +1,16 @@
+""" Patches
+"""
 from zope.event import notify
 from md5 import md5
 from valentine.linguaflow.events import TranslationObjectUpdate
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.utils import shasattr
 from Products.LinguaPlone import config
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 
 def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     """ Find out what language dependent fields have changed. """
-    outdated = self.isOutdated()
-
     request = REQUEST or self.REQUEST
     if values:
         form = values
@@ -22,7 +24,8 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     if fieldset is not None:
         fields = schemata[fieldset].fields()
     else:
-        if data: fields += schema.filterFields(isMetadata=0)
+        if data:
+            fields += schema.filterFields(isMetadata=0)
 
     form_keys = form.keys()
     oldValues = {}
@@ -53,7 +56,8 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             canonical = self.getCanonical()
             canonical_parent = aq_parent(aq_inner(canonical))
             parent = aq_parent(aq_inner(self))
-            if parent == canonical_parent and not parent.hasTranslation(language):
+            if parent == canonical_parent and \
+                         not parent.hasTranslation(language):
                 parent.addTranslation(language)
                 translation_parent = parent.getTranslation(language)
                 values = {'title': self.Title()}
@@ -63,14 +67,14 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             if shasattr(parent, 'setDefaultPage'):
                 parent.setDefaultPage(new_id)
 
-
     if shasattr(self, '_lp_outdated'):
         delattr(self, '_lp_outdated')
     # END - LinguaPlone.I18NBaseObject.processForm method
 
     changedFields = []
     for fName, md5Hex in oldValues.items():
-        if md5Hex != md5(str(schema.getField(fName).getAccessor(self)())).hexdigest():
+        schema_accessor = schema.getField(fName).getAccessor(self)()
+        if md5Hex != md5(str(schema_accessor)).hexdigest():
             # translatable field changed
             changedFields.append(fName)
 
@@ -79,10 +83,11 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         if self.isCanonical() and changedFields:
             self.invalidateTranslations(comment)
             # mark canonical with the changes but no state change
-            cUpdate = TranslationObjectUpdate(self, self,'nochange',
+            cUpdate = TranslationObjectUpdate(self,
+                                              self,
+                                              'nochange',
                                               comment=comment)
             notify(cUpdate)
-
 
 def invalidateTranslations(self, comment=''):
     """Marks the translation as outdated."""
@@ -91,7 +96,9 @@ def invalidateTranslations(self, comment=''):
         translation = translations[lang][0]
         translation.notifyCanonicalUpdate()
         if comment:
-            cUpdate = TranslationObjectUpdate(self, translation,'invalidate',
+            cUpdate = TranslationObjectUpdate(self,
+                                              translation,
+                                              'invalidate',
                                               comment=comment)
             notify(cUpdate)
     if hasattr(self, 'invalidateTranslationCache'):

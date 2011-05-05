@@ -1,3 +1,5 @@
+""" Portlet module
+"""
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 
@@ -6,7 +8,7 @@ class InvalidTranslations(BrowserView):
         listing or portlet.
 
     """
-    
+
     def __call__(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         query = {'lingua_state' : 'invalid',

@@ -1,6 +1,9 @@
+""" Setuphandlers
+"""
 from Products.CMFCore.utils import getToolByName
 
 def setupVarious(context):
+    """ Setup various """
 
     if context.readDataFile('valentine.linguaflow_various.txt') is None:
         return
@@ -14,7 +17,8 @@ def setupVarious(context):
     if 'linguaflow' not in default_chain:
         default_chain.append('linguaflow')
         wf.setDefaultChain(' '.join(default_chain))
-        logger.info("Valentine Linguaflow: add linguaflow workflow as parallel default workflow")
+        logger.info("Valentine Linguaflow: add linguaflow workflow as "
+                    "parallel default workflow")
 
     # Add linguaflow for folder workflow too if it doesn't use the default
     folder_chain = list(wf.getChainForPortalType('Folder'))
