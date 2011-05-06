@@ -1,5 +1,6 @@
 Changelog
 =========
+[Alexandru Ghica - alec.ghica at eaudeweb.ro]
 [Sasha Vincic - Valentine Web Systems]
 
 4.0 - (unreleased)

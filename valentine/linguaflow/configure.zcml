@@ -3,6 +3,7 @@
            i18n_domain="valentine.linguaflow">
 
   <include package="collective.monkeypatcher" />
+  <include package="Products.LinguaPlone" />
 
   <include file="profiles.zcml" />
   <include file="skins.zcml" />
