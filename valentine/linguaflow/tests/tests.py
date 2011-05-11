@@ -21,11 +21,9 @@ def setUp(root):
 def test_suite():
     """ Test suite """
     suite = TestSuite()
-    suite.addTest(ZopeDocFileSuite(
-                'README.txt',
-                setUp=setUp,
-                package="valentine.linguaflow",
-                test_class=ValentineLinguaflowFunctionalTestCase,
-                optionflags=optionflags),
-                )
+    suite.addTest(ZopeDocFileSuite('README.txt',
+                            setUp=setUp,
+                            package="valentine.linguaflow",
+                            test_class=ValentineLinguaflowFunctionalTestCase,
+                            optionflags=optionflags),)
     return suite
