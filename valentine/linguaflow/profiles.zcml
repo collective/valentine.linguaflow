@@ -10,7 +10,7 @@
         provides="Products.GenericSetup.interfaces.EXTENSION" />
 
     <genericsetup:importStep
-        name="various"
+        name="valentine.linguaflow-various"
         title="Valentine Linguaflow: miscellaneous import steps"
         description="Various setup for valentine.linguaflow"
         handler="valentine.linguaflow.setuphandlers.setupVarious">
