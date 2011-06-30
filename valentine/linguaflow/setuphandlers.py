@@ -5,7 +5,7 @@ from Products.CMFCore.utils import getToolByName
 def setupVarious(context):
     """ Setup various """
 
-    if context.readDataFile('valentine.linguaflow_various.txt') is None:
+    if context.readDataFile('valentine.linguaflow.txt') is None:
         return
 
     logger = context.getLogger('valentine.linguaflow')
