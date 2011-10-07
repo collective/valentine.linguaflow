@@ -30,7 +30,7 @@ def notifyCanonicalUpdate(obj, event):
     # catch all ITranslatable modified
     if event.comment:
         wt = getToolByName(obj, 'portal_workflow')
-        if 'linguaflow' in wt.getChainFor(obj):
+        if 'linguaflow' in wt.getChainFor(obj) and event.action in wt.listActions(object=obj):
             wt.doActionFor(event.translation, event.action, comment=event.comment )
 
 
