@@ -1,36 +1,26 @@
 Changelog
 =========
 
-
-4.0 - (unreleased)
+4.0 - (2011-11-18)
 ------------------
-
 * Cleanup: Fixed all pylint, pyflakes violations
   [ghicaale - EEA #4295]
-
 * Change: replace dependecy to collective.monkey with collective.monkeypatcher
   [ghicaale - EEA #4295]
-
 * Fixed bulk reset of expiration_date
   [voineali - EEA #3956]
-
 * Renamed import step from eea.themecentre.various to various
   [tiberich - EEA #4319]
-
 * Feature: Added upgrade steps
   [voineali - EEA #4392]
-
 * Feature: Plone 4.x compatible release
   [ghicaale - EEA #4295]
 
-
 0.2 - (2010-03-25)
 ------------------
-
 * Fixed cache invalidation compatibility with Plone 3
-
 
 0.1 - (2010-03-21)
 ------------------
-
 * Initial release
+
