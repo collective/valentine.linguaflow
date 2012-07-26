@@ -6,7 +6,7 @@ from zope.component.interfaces import IObjectEvent
 from Products.CMFCore.utils import getToolByName
 
 class ITranslationObjectUpdate(IObjectEvent):
-    """ A canonical lingaua plone object has changed or a translation has
+    """ A canonical lingua plone object has changed or a translation has
         been updated. . """
 
     object = Attribute("The canonical object.")
