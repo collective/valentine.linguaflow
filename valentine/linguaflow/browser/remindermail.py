@@ -7,13 +7,11 @@ import logging
 logger = logging.getLogger('Plone')
 
 class ReminderMail(BrowserView):
-    """
-    View to update all feeds
+    """ View to update all feeds
     """
 
     def send(self):
-        """
-        Send reminder mail
+        """ Send reminder mail
         """
         portal = self.context
         ct = getToolByName(portal, 'portal_catalog')

@@ -10,8 +10,7 @@ class CheckValidation(ViewletBase):
     index = ViewPageTemplateFile('checkvalidation.pt')
 
     def update(self):
-        """
-        Checker if viewlet should be rendered or not
+        """ Checker if viewlet should be rendered or not
         """
         context = self.context
         wf = getToolByName(context, 'portal_workflow')

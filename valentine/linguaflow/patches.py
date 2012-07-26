@@ -90,7 +90,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             notify(cUpdate)
 
 def invalidateTranslations(self, comment=''):
-    """Marks the translation as outdated."""
+    """ Marks the translation as outdated. """
     translations = self.getNonCanonicalTranslations()
     for lang in translations.keys():
         translation = translations[lang][0]

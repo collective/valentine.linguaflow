@@ -16,10 +16,10 @@ class ITranslationObjectUpdate(IObjectEvent):
                         "have changed.")
 
 class TranslationObjectUpdate(object):
-    """Sent after an canonical or translation object has been edited.
+    """ Sent after an canonical or translation object has been edited.
        When a canonical is edited the action is 'invalidate' and if
        a translation is edited the action is 'validate'. Both actions
-       are performed on the translation."""
+       are performed on the translation. """
     implements(ITranslationObjectUpdate)
 
     def __init__(self, context, translation, action, comment):

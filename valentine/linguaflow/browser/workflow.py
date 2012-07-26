@@ -19,9 +19,8 @@ class WorkflowHistory(object):
         self.request = request
 
     def histories(self):
-        """Return workflow history of this context.
-
-        Taken from plone_scripts/getWorkflowHistory.py
+        """ Return workflow history of this context.
+            Taken from plone_scripts/getWorkflowHistory.py
         """
         context = self.context
 
