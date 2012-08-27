@@ -1,6 +1,9 @@
 Changelog
 =========
 
+4.4-dev - (unreleased)
+----------------------
+
 4.3 - (2012-08-27)
 ------------------
 * Cleanup: fixed docstrings typos and formatting
