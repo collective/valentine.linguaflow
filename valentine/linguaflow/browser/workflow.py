@@ -74,7 +74,7 @@ class WorkflowHistory(object):
 
             except WorkflowException:
                 logger.info('valentine.linguaflow: %s has no associated '
-                            'workflow' % self.context.absolute_url())
+                            'workflow', self.context.absolute_url())
         return history
 
 class LinguaflowInvalidateAll(object):
