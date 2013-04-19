@@ -3,6 +3,9 @@ Changelog
 
 4.4-dev - (unreleased)
 ----------------------
+* Bug fix: Fixed permission for manage_translations_form, anonymous 
+  can't access the page anymore.
+  [prospchr fixes #14318]
 
 4.3 - (2012-08-27)
 ------------------
