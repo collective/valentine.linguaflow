@@ -1,6 +1,9 @@
 Changelog
 =========
 
+4.5-dev - (unreleased)
+----------------------
+
 4.4 - (2013-05-20)
 ------------------
 * Bug fix: Fixed permission for manage_translations_form, anonymous 
