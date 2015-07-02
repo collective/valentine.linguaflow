@@ -7,9 +7,9 @@ import doctest
 from unittest import TestSuite
 from Testing.ZopeTestCase import ZopeDocFileSuite
 
-optionflags =  (doctest.ELLIPSIS |
-                doctest.NORMALIZE_WHITESPACE |
-                doctest.REPORT_ONLY_FIRST_FAILURE)
+optionflags = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_ONLY_FIRST_FAILURE)
 
 def setUp(root):
     """ Setup """

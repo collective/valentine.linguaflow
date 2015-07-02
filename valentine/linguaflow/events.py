@@ -35,7 +35,7 @@ def notifyCanonicalUpdate(obj, event):
         if 'linguaflow' in wt.getChainFor(obj):
             wt.doActionFor(event.translation,
                            event.action,
-                           comment=event.comment )
+                           comment=event.comment)
 
 class ISyncWorkflowEvent(IObjectEvent):
     """ Make sure translation workflow status is the same as canonicals. """

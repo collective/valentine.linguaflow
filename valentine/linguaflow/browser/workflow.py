@@ -64,7 +64,7 @@ class WorkflowHistory(object):
                         else:
                             r['actor'] = pmem.getMemberInfo(actorid)
                             if r['actor'] is not None:
-                                r['actor_home'] =  '/author/' + actorid
+                                r['actor_home'] = '/author/' + actorid
                             else:
                                 # member info is not available
                                 # the user was probably deleted
@@ -190,7 +190,7 @@ class SyncWorkflow(object):
 
                 if syncLocalRoles:
                     existingRoles = \
-                      [ tid for tid, roles in translation.get_local_roles() ]
+                      [tid for tid, roles in translation.get_local_roles()]
                     if existingRoles:
                         translation.manage_delLocalRoles(existingRoles)
                     for userid, roles in local_roles:
