@@ -3,6 +3,9 @@ Changelog
 
 4.6.dev0 - (unreleased)
 -----------------------
+* Feature: processForm will now reindex translations if languageIndependent
+  fields are modified and we have translations
+  [ichim-david refs #71102]
 
 4.5 - (2015-03-17)
 ------------------

@@ -1,7 +1,7 @@
 """ Patches
 """
 from zope.event import notify
-from md5 import md5
+from hashlib import md5
 from valentine.linguaflow.events import TranslationObjectUpdate
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.utils import shasattr
@@ -16,6 +16,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         form = values
     else:
         form = request.form
+
     fieldset = form.get('fieldset', None)
     schema = self.Schema()
     schemata = self.Schemata()
@@ -36,9 +37,41 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             accessor = field.getAccessor(self)
             oldValues[field.getName()] = md5(str(accessor())).hexdigest()
 
+    translations = getattr(self, 'getTranslations', lambda: '')()
+    has_translations = len(translations) > 1
+    modified_independent_fields = []
+    lang_independent_fields_old_values = {}
+    if has_translations:
+        lang_independent_fields = [i for i in schema.fields() if
+                                   i.isLanguageIndependent(i)]
+        for field in lang_independent_fields:
+            fname = field.getName()
+            if fname in form_keys:
+                form_value = form.get(fname)
+                if form_value:
+                    accessor = field.getAccessor(self)
+                    lang_independent_fields_old_values[field.getName()] = \
+                        md5(str(accessor())).hexdigest()
+
     # START LinguaPlone.I18NBaseObject.processForm method
     is_new_object = self.checkCreationFlag()
     BaseObject.processForm(self, data, metadata, REQUEST, values)
+
+    # EEA #71102 reindex translations if languageIndependent fields
+    # are modified as right now as of Plone 4.3.x only the object
+    # being modified is reindexed even though language independent
+    # fields are set on all translations
+    if has_translations:
+        for fName, fValue in lang_independent_fields_old_values.items():
+            schema_accessor = schema.getField(fName).getAccessor(self)()
+            if fValue != md5(str(schema_accessor)).hexdigest():
+                modified_independent_fields.append(fName)
+        if modified_independent_fields:
+            for translation in translations:
+                obj = translations[translation][0]
+                if obj.isCanonical():
+                    continue
+                obj.reindexObject()
 
     #
     # Translation invalidation moved to the end
