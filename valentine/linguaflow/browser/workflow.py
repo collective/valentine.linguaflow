@@ -182,11 +182,11 @@ class SyncWorkflow(object):
                                    tuple(translation_history)
                         self.updateRoleMappings(wf, wf_id, translation)
 
-                    if effectiveDate is not None:
-                        translation.setEffectiveDate(effectiveDate)
+                if effectiveDate is not None:
+                    translation.setEffectiveDate(effectiveDate)
 
-                    if expirationDate is not None:
-                        translation.setExpirationDate(expirationDate)
+                if expirationDate is not None:
+                    translation.setExpirationDate(expirationDate)
 
                 if syncLocalRoles:
                     existingRoles = \

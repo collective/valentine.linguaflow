@@ -3,6 +3,9 @@ Changelog
 
 4.6.dev0 - (unreleased)
 -----------------------
+* Bugfix: syncing effectiveDate and expirationDate is no longer done
+  only if workflowSync is also enabled
+  [ichim-david refs #71102]
 * Feature: processForm will now reindex translations if languageIndependent
   fields are modified and we have translations
   [ichim-david refs #71102]
