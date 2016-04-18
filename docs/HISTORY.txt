@@ -1,6 +1,9 @@
 Changelog
 =========
 
+4.7.dev0 - (unreleased)
+-----------------------
+
 4.6 - (2016-04-18)
 ------------------
 * Bugfix: syncing effectiveDate and expirationDate is no longer done
