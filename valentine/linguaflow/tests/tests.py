@@ -1,11 +1,12 @@
 """ Doctest runner for 'valentine.linguaflow'
 """
+import doctest
+from unittest import TestSuite
+
+from Testing.ZopeTestCase import ZopeDocFileSuite
 from valentine.linguaflow.tests.base import (
     ValentineLinguaflowFunctionalTestCase,
 )
-import doctest
-from unittest import TestSuite
-from Testing.ZopeTestCase import ZopeDocFileSuite
 
 optionflags = (doctest.ELLIPSIS |
                doctest.NORMALIZE_WHITESPACE |
