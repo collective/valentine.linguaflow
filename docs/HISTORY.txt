@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.7.dev0 - (unreleased)
------------------------
+4.7 - (2016-05-19)
+------------------
 * Bug fix: Fix pylint warnings
   [ichim-david refs #71940]
 
