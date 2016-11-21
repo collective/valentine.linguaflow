@@ -8,6 +8,8 @@ from Products.Archetypes.utils import shasattr
 from Products.LinguaPlone import config
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from zope.lifecycleevent import ObjectModifiedEvent
+
 
 def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     """ Find out what language dependent fields have changed. """
@@ -72,6 +74,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
                 if obj.isCanonical():
                     continue
                 obj.reindexObject()
+                notify(ObjectModifiedEvent(obj))
 
     #
     # Translation invalidation moved to the end
