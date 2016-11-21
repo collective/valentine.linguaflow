@@ -1,8 +1,8 @@
 Changelog
 =========
 
-4.8.dev0 - (unreleased)
------------------------
+4.8 - (2016-11-21)
+------------------
 * Change: remove metadata filtering from processForm in order to check every
   available fields if they affect what objects need to be reindexed
   [ichim-david refs #77661]
