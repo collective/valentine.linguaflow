@@ -26,7 +26,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
         fields = schemata[fieldset].fields()
     else:
         if data:
-            fields += schema.filterFields(isMetadata=0)
+            fields += schema.filterFields()
 
     form_keys = form.keys()
     oldValues = {}
@@ -42,7 +42,7 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     modified_independent_fields = []
     lang_independent_fields_old_values = {}
     if has_translations:
-        lang_independent_fields = [i for i in schema.fields() if
+        lang_independent_fields = [i for i in fields if
                                    i.isLanguageIndependent(i)]
         for field in lang_independent_fields:
             fname = field.getName()
