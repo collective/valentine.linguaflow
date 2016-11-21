@@ -3,10 +3,6 @@ Changelog
 
 4.9.dev0 - (unreleased)
 -----------------------
-* Change: trigger ObjectModifiedEvent for translations when an
-  independentLanguage field has been modified and translation has been
-  reindexed
-  [ichim-david refs #77661]
 
 4.8 - (2016-11-21)
 ------------------
