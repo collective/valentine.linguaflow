@@ -1,7 +1,7 @@
 """ Patches
 """
-from zope.event import notify
 from hashlib import md5
+from zope.event import notify
 from valentine.linguaflow.events import TranslationObjectUpdate
 from Products.Archetypes.atapi import BaseObject
 from Products.Archetypes.utils import shasattr

@@ -32,5 +32,3 @@ class CheckValidation(ViewletBase):
         #   just in case.
         modificationTime = modificationTime - (1.0 / 24 / 3600 * 2)
         self.uptodate = modificationTime > invalidationTime
-
-

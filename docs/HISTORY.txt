@@ -3,6 +3,8 @@ Changelog
 
 4.9.dev0 - (unreleased)
 -----------------------
+* Change: fixed PyLint warnings and errors
+  [eduard-fironda refs #84949]
 
 4.8 - (2016-11-21)
 ------------------

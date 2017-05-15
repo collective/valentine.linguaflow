@@ -1,8 +1,8 @@
 """ Reminder email
 """
+import logging
 from Products.Five import BrowserView
 from Products.CMFPlone.utils import getToolByName
-import logging
 
 logger = logging.getLogger('Plone')
 

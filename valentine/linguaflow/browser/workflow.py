@@ -6,8 +6,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone import PloneMessageFactory as _
 from valentine.linguaflow.events import TranslationObjectUpdate
-from DateTime import DateTime
 from valentine.linguaflow.browser.topic import syncTopicCriteria as stc
+from DateTime import DateTime
 
 logger = logging.getLogger('valentine.linguaflow')
 
