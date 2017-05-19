@@ -4,9 +4,10 @@ from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+
 class CheckValidation(ViewletBase):
     """ Check validation """
-    #TODO: in-place invalidation doesn't show this viewlet
+    # NOTE To Do: in-place invalidation doesn't show this viewlet
     index = ViewPageTemplateFile('checkvalidation.pt')
 
     def update(self):
@@ -26,7 +27,7 @@ class CheckValidation(ViewletBase):
         if not invalid:
             return
         history = wf.getHistoryOf(linguaflow.getId(), context)
-        invalidationTime = history and history[-1]['time'] or None
+        invalidationTime = history[-1]['time'] if history else None
         modificationTime = context.modified()
         # Invalidation changes modification time so I subtract 2 seconds
         #   just in case.
