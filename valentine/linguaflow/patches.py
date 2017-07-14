@@ -23,7 +23,11 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     fields = []
 
     if fieldset is not None:
-        fields = schemata[fieldset].fields()
+        try:
+            fields = schemata[fieldset].fields()
+        except KeyError:
+            if data:
+                fields += schema.filterFields()
     else:
         if data:
             fields += schema.filterFields()

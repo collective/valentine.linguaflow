@@ -3,6 +3,9 @@ Changelog
 
 5.0.dev0 - (unreleased)
 -----------------------
+* Bug fix: take into consideration that fieldset name might be incorrect
+  when going through the schemata fields
+  [ichim-david refs #86786]
 
 4.9 - (2017-05-22)
 ------------------
