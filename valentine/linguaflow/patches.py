@@ -39,7 +39,11 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
             # we have a translatable field in the form
             # save a hash for old value
             accessor = field.getAccessor(self)
-            oldValues[field.getName()] = md5(str(accessor())).hexdigest()
+            try:
+                oldValues[field.getName()] = md5(str(accessor())).hexdigest()
+            except UnicodeEncodeError:
+                oldValues[field.getName()] = md5(
+                    str(accessor().encode('utf8'))).hexdigest()
 
     translations = getattr(self, 'getTranslations', lambda: '')()
     has_translations = len(translations) > 1
@@ -111,7 +115,11 @@ def processForm(self, data=1, metadata=0, REQUEST=None, values=None):
     changedFields = []
     for fName, md5Hex in oldValues.items():
         schema_accessor = schema.getField(fName).getAccessor(self)()
-        if md5Hex != md5(str(schema_accessor)).hexdigest():
+        try:
+            schema_str = str(schema_accessor)
+        except UnicodeEncodeError:
+            schema_str = str(schema_accessor.encode('utf8'))
+        if md5Hex != md5(schema_str).hexdigest():
             # translatable field changed
             changedFields.append(fName)
 

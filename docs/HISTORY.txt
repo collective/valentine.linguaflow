@@ -3,6 +3,8 @@ Changelog
 
 5.0.dev0 - (unreleased)
 -----------------------
+* Bug fix: fix UnicodeEncodeError for md5 on unicode fields
+  [valipod refs #82858]
 * Bug fix: take into consideration that fieldset name might be incorrect
   when going through the schemata fields
   [ichim-david refs #86786]
