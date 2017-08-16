@@ -1,8 +1,8 @@
 Changelog
 =========
 
-5.0.dev0 - (unreleased)
------------------------
+5.0 - (2017-08-16)
+------------------
 * Bug fix: fix UnicodeEncodeError for md5 on unicode fields
   [valipod refs #82858]
 * Bug fix: take into consideration that fieldset name might be incorrect
