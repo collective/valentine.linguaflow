@@ -1,5 +1,7 @@
 Introduction - valentine.linguaflow
 ===================================
+.. image:: http://ci.eionet.europa.eu/job/eea/job/valentine.linguaflow/job/master/badge/icon
+  :target: http://ci.eionet.europa.eu/job/eea/job/valentine.linguaflow/job/master/display/redirect
 
 With this product your multilingual site will have the information to know
 
